@@ -53,7 +53,7 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       Note that if you use hong zhang to kill a  footman, target is unknown.
       Translate: AA give his ward sentry to BAT.
       
-    - Add Modifier
+    - Add Modifier  
       { 
         "Source": "dota_unknown",  
         "Target": "npc_dota_hero_elder_titan",  
@@ -68,10 +68,10 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
         "AttackerIsHero": true,  
         "TargetIsHero": true  
       }  
-      Target: Who get the Modifier.
-      Modifier: What modifier the target get.
-      Attacker: If the source modifier comes from other unit. 
-      Translate: Elder titan got a clarity potion buff, the clarity owned by himself.
+      Target: Who get the Modifier.  
+      Modifier: What modifier the target get.  
+      Attacker: If the source modifier comes from other unit.  
+      Translate: Elder titan got a clarity potion buff, the clarity owned by himself.  
       
 
 
