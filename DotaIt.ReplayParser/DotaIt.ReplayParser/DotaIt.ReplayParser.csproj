@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotaResources\DotaHero.cs" />
-    <Compile Include="DotaResources\ResourceManager.cs" />
+    <Compile Include="DotaResources\DotaResourceManager.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Ability.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Buyback.cs" />
@@ -56,9 +60,13 @@
     <Compile Include="ReplayInfo\DotaMatch.cs" />
     <Compile Include="DotaResources\Equipment.cs" />
     <Compile Include="DotaResources\DotaSkill.cs" />
+    <Compile Include="ReplayInfo\MatchManager.cs" />
     <Compile Include="ReplayInfo\Player.cs" />
     <Compile Include="ReplayInfo\Chat\PlayerChatLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

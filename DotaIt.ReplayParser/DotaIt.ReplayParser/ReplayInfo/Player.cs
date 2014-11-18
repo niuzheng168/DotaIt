@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotaIt.ReplayParser
+﻿namespace DotaIt.ReplayParser
 {
-    class Player
+    /// <summary>
+    /// The player.
+    /// </summary>
+    public class Player
     {
     }
 }

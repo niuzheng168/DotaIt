@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotaIt.ReplayParser
+﻿namespace DotaIt.ReplayParser.ReplayInfo
 {
-    class DotaMatch
+    /// <summary>
+    /// The dota match.
+    /// </summary>
+    public class DotaMatch
     {
+
     }
 }
