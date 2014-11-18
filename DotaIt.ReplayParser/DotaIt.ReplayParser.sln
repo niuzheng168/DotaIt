@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaIt.ReplayParser", "DotaIt.ReplayParser\DotaIt.ReplayParser.csproj", "{A82519B9-D708-4CAD-9FCA-4756C30222AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaIt.ReplayParser.Test", "DotaIt.ReplayParser.Test\DotaIt.ReplayParser.Test.csproj", "{FE28DC18-C04B-4F17-AF3B-747CD3627754}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A82519B9-D708-4CAD-9FCA-4756C30222AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A82519B9-D708-4CAD-9FCA-4756C30222AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A82519B9-D708-4CAD-9FCA-4756C30222AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A82519B9-D708-4CAD-9FCA-4756C30222AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE28DC18-C04B-4F17-AF3B-747CD3627754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE28DC18-C04B-4F17-AF3B-747CD3627754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE28DC18-C04B-4F17-AF3B-747CD3627754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE28DC18-C04B-4F17-AF3B-747CD3627754}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
