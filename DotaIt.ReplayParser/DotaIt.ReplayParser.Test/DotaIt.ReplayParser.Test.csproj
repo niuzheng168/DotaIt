@@ -59,6 +59,11 @@
       <Name>DotaIt.ReplayParser</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\battlelog.txt" />
+    <Content Include="TestData\chatInfo.txt" />
+    <Content Include="TestData\fileInfo.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
