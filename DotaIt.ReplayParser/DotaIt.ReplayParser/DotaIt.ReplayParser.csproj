@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotaResources\DotaHero.cs" />
-    <Compile Include="DotaResources\DotaResourceManager.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Ability.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Buyback.cs" />
@@ -60,7 +59,7 @@
     <Compile Include="ReplayInfo\DotaMatch.cs" />
     <Compile Include="DotaResources\Equipment.cs" />
     <Compile Include="DotaResources\DotaSkill.cs" />
-    <Compile Include="ReplayInfo\MatchManager.cs" />
+    <Compile Include="ReplayInfo\DotaMatchHelper.cs" />
     <Compile Include="ReplayInfo\Player.cs" />
     <Compile Include="ReplayInfo\Chat\PlayerChatLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

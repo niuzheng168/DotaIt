@@ -1,0 +1,192 @@
+{
+  "playback_time": 4078.7336,
+  "playback_ticks": 122362,
+  "playback_frames": 61177,
+  "game_info": {
+    "dota": {
+      "match_id": 1016671075,
+      "game_mode": 2,
+      "game_winner": 2,
+      "player_info": [
+        {
+          "hero_name": "npc_dota_hero_doom_bringer",
+          "player_name": "Yao",
+          "is_fake_client": false,
+          "steamid": 76561198059143738,
+          "game_team": 2
+        },
+        {
+          "hero_name": "npc_dota_hero_ogre_magi",
+          "player_name": "Faith",
+          "is_fake_client": false,
+          "steamid": 76561198042593402,
+          "game_team": 2
+        },
+        {
+          "hero_name": "npc_dota_hero_batrider",
+          "player_name": "InJuly",
+          "is_fake_client": false,
+          "steamid": 76561198071557321,
+          "game_team": 2
+        },
+        {
+          "hero_name": "npc_dota_hero_storm_spirit",
+          "player_name": "Sylar",
+          "is_fake_client": false,
+          "steamid": 76561198068647788,
+          "game_team": 2
+        },
+        {
+          "hero_name": "npc_dota_hero_ancient_apparition",
+          "player_name": "MMY!",
+          "is_fake_client": false,
+          "steamid": 76561198049672841,
+          "game_team": 2
+        },
+        {
+          "hero_name": "npc_dota_hero_lion",
+          "player_name": "fy",
+          "is_fake_client": false,
+          "steamid": 76561198061960890,
+          "game_team": 3
+        },
+        {
+          "hero_name": "npc_dota_hero_ember_spirit",
+          "player_name": "Super",
+          "is_fake_client": false,
+          "steamid": 76561198051147887,
+          "game_team": 3
+        },
+        {
+          "hero_name": "npc_dota_hero_jakiro",
+          "player_name": "Fenrir",
+          "is_fake_client": false,
+          "steamid": 76561198074066546,
+          "game_team": 3
+        },
+        {
+          "hero_name": "npc_dota_hero_elder_titan",
+          "player_name": "iceiceice",
+          "is_fake_client": false,
+          "steamid": 76561198045038168,
+          "game_team": 3
+        },
+        {
+          "hero_name": "npc_dota_hero_weaver",
+          "player_name": "Black^",
+          "is_fake_client": false,
+          "steamid": 76561197981555031,
+          "game_team": 3
+        }
+      ],
+      "leagueid": 1936,
+      "picks_bans": [
+        {
+          "is_pick": false,
+          "team": 3,
+          "hero_id": 41
+        },
+        {
+          "is_pick": false,
+          "team": 2,
+          "hero_id": 43
+        },
+        {
+          "is_pick": false,
+          "team": 3,
+          "hero_id": 77
+        },
+        {
+          "is_pick": false,
+          "team": 2,
+          "hero_id": 78
+        },
+        {
+          "is_pick": true,
+          "team": 3,
+          "hero_id": 64
+        },
+        {
+          "is_pick": true,
+          "team": 2,
+          "hero_id": 84
+        },
+        {
+          "is_pick": true,
+          "team": 2,
+          "hero_id": 65
+        },
+        {
+          "is_pick": true,
+          "team": 3,
+          "hero_id": 106
+        },
+        {
+          "is_pick": false,
+          "team": 3,
+          "hero_id": 94
+        },
+        {
+          "is_pick": false,
+          "team": 2,
+          "hero_id": 89
+        },
+        {
+          "is_pick": false,
+          "team": 3,
+          "hero_id": 101
+        },
+        {
+          "is_pick": false,
+          "team": 2,
+          "hero_id": 93
+        },
+        {
+          "is_pick": true,
+          "team": 2,
+          "hero_id": 68
+        },
+        {
+          "is_pick": true,
+          "team": 3,
+          "hero_id": 63
+        },
+        {
+          "is_pick": true,
+          "team": 2,
+          "hero_id": 69
+        },
+        {
+          "is_pick": true,
+          "team": 3,
+          "hero_id": 103
+        },
+        {
+          "is_pick": false,
+          "team": 2,
+          "hero_id": 16
+        },
+        {
+          "is_pick": false,
+          "team": 3,
+          "hero_id": 67
+        },
+        {
+          "is_pick": true,
+          "team": 2,
+          "hero_id": 17
+        },
+        {
+          "is_pick": true,
+          "team": 3,
+          "hero_id": 26
+        }
+      ],
+      "radiant_team_id": 15,
+      "dire_team_id": 726228,
+      "radiant_team_tag": "LGD",
+      "dire_team_tag": "VG",
+      "end_time": 1415617831
+    }
+  }
+}
