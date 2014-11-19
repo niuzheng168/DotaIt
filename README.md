@@ -24,6 +24,13 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       Time: in second fromat.  
       Translate: The storm_spirit hero get 625 gold at 771 second.
 
+    - XP    
+      {  
+        "Target": "npc_dota_hero_weaver",  
+        "Value": 297,  
+        "Time": 1754.4932  
+      }  
+      Translate: The weaver hero get 297 XP at 1754 second.
     - Purchase  
       {  
         "Time": 829.28577,  
@@ -94,7 +101,29 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       Source: Who really own the damage, aka, if target is down, who will get the gold and exp.
       Target: Who get the damage.
       Attacker: Who did the damage to target.
-      Cause: What cause the damage, skill, normal attack?
+      Cause: What cause the damage, skill, normal attack?  
+      Value: How many damage down.  
+      Health: Target health after this damage.  
+      Translate: Storm Sprit use static remnant to attack a melee, 140 damage down, the current health of melee is 410.  
+    
+    - Heal  
+      Refer damage.  
+      
+    - Death  
+      {  
+        "Source": "npc_dota_hero_weaver",  
+        "Target": "npc_dota_neutral_satyr_hellcaller",  
+        "Attacker": "npc_dota_hero_weaver",  
+        "Cause": "item_hand_of_midas",  
+        "AttackerIsIllusion": false,  
+        "TargetIsIllusion": false,  
+        "Time": 1754.4932,  
+        "TargetSource": "npc_dota_neutral_satyr_hellcaller",  
+        "AttackerIsHero": true,  
+        "TargetIsHero": false  
+      }  
+      Simply who killed who at what time with what.
+      Translate: Wwaver killed Satyr by hand of midas.
       
       
 
