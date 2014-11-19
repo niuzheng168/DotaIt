@@ -56,7 +56,7 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       Item: Use what.
       Target: If the target is not unknown, it may means one of below:
       1. Give a item to another hero.
-      2. Use the item to another hero, like urn of shadows(gu hui, hong zhang)
+      2. Use the item to another hero, like urn of shadows(gu hui, hong zhang)  
       Note that if you use hong zhang to kill a  footman, target is unknown.  
       Translate: AA give his ward sentry to BAT.
       
@@ -83,8 +83,8 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
     - Remove Modifier  
       Refer Add Modifier  
       
-    - Damage
-      {  
+    - Damage  
+      {   
         "Source": "npc_dota_hero_storm_spirit",  
         "Target": "npc_dota_creep_badguys_melee",  
         "Attacker": "npc_dota_hero_storm_spirit",  
