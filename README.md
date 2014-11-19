@@ -50,11 +50,11 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       Target: If the target is not unknown, it may means one of below:
       1. Give a item to another hero.
       2. Use the item to another hero, like urn of shadows(gu hui, hong zhang)
-      Note that if you use hong zhang to kill a  footman, target is unknown.
+      Note that if you use hong zhang to kill a  footman, target is unknown.  
       Translate: AA give his ward sentry to BAT.
       
     - Add Modifier  
-      { 
+      {  
         "Source": "dota_unknown",  
         "Target": "npc_dota_hero_elder_titan",  
         "Attacker": "npc_dota_hero_elder_titan",  
@@ -72,6 +72,30 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       Modifier: What modifier the target get.  
       Attacker: If the source modifier comes from other unit.  
       Translate: Elder titan got a clarity potion buff, the clarity owned by himself.  
+      
+    - Remove Modifier  
+      Refer Add Modifier  
+      
+    - Damage
+      {  
+        "Source": "npc_dota_hero_storm_spirit",  
+        "Target": "npc_dota_creep_badguys_melee",  
+        "Attacker": "npc_dota_hero_storm_spirit",  
+        "Cause": "storm_spirit_static_remnant",  
+        "AttackerIsIllusion": false,  
+        "TargetIsIllusion": false,  
+        "Value": 140,  
+        "Health": 410,  
+        "Time": 1148.5745,  
+        "TargetSource": "npc_dota_creep_badguys_melee",  
+        "AttackerIsHero": true,  
+        "TargetIsHero": false  
+      }  
+      Source: Who really own the damage, aka, if target is down, who will get the gold and exp.
+      Target: Who get the damage.
+      Attacker: Who did the damage to target.
+      Cause: What cause the damage, skill, normal attack?
+      
       
 
 
