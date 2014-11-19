@@ -15,14 +15,14 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
   - Combat Info
     - Gold  
       {   
-        "Target": 1,  
+        "Target": "npc_dota_hero_storm_spirit",   
         "Value": 625,  
         "Time": 771.3666  
       }  
       Target: the hero ID.  
       Value: the gold count.  
       Time: in second fromat.  
-      Translate: The #1 hero get 625 gold at 771 second.
+      Translate: The storm_spirit hero get 625 gold at 771 second.
 
     - Purchase  
       {  
