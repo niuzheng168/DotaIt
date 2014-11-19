@@ -55,8 +55,8 @@ Actually it's a wrapped replay parser, the real parser comes from [YASHA](https:
       User: Who use the item.
       Item: Use what.
       Target: If the target is not unknown, it may means one of below:
-      1. Give a item to another hero.
-      2. Use the item to another hero, like urn of shadows(gu hui, hong zhang)  
+        1. Give a item to another hero.
+        2. Use the item to another hero, like urn of shadows(gu hui, hong zhang)  
       Note that if you use hong zhang to kill a  footman, target is unknown.  
       Translate: AA give his ward sentry to BAT.
       
