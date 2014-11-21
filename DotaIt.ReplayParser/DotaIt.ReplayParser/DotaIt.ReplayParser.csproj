@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A82519B9-D708-4CAD-9FCA-4756C30222AA}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DotaIt.ReplayParser</RootNamespace>
     <AssemblyName>DotaIt.ReplayParser</AssemblyName>
@@ -29,10 +29,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Crc32C.NET">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappy.NET">
+      <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,7 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotaResources\DotaHero.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Protobuf\DemoFile.cs" />
+    <Compile Include="Protobuf\DemoFileInfo.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Ability.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Buyback.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Damage.cs" />
