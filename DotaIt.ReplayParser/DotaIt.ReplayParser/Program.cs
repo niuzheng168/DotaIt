@@ -32,6 +32,8 @@ namespace DotaIt.ReplayParser
             string header = parser.GetDemoHeader();
             Console.WriteLine(header);
 
+            parser.Parse();
+
             var fileInfo = parser.DirectlyReadFileInfo();
             Console.WriteLine(JsonConvert.SerializeObject(fileInfo));
         }

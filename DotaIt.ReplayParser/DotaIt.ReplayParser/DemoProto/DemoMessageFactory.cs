@@ -21,7 +21,9 @@
                 case DemoCommandKind.DEM_FileInfo:
                     message = new DemoMessageFileInfo(kind, tick, isCompressed, messageBody);
                     break;
-
+                case DemoCommandKind.DEM_FileHeader:
+                    message = new DemoMessageFileHeader(kind, tick, isCompressed, messageBody);
+                    break;
                 default:
                     message = new DemoMessageBase(kind, tick, isCompressed, messageBody);
                     break;

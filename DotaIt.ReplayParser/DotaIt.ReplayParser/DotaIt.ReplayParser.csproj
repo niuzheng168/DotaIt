@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoProto\DemoMessageFileHeader.cs" />
+    <Compile Include="DemoProto\DemoMessageFileHeaderProto.cs" />
     <Compile Include="DemoProto\DemoMessageFileInfo.cs" />
     <Compile Include="DemoProto\DemoMessageBase.cs" />
     <Compile Include="DemoProto\DemoMessageFactory.cs" />

@@ -62,6 +62,16 @@
             return _demoReader.ReadDemoFileInfo();
         }
 
+        public void Parse()
+        {
+            _demoReader.SetReaderStartPos(12);
+            while (true)
+            {
+                var message = _demoReader.ReadDemoMessage();
+                message.BuildMessageInstance();
+            }
+        }
+
         #endregion
     }
 }
