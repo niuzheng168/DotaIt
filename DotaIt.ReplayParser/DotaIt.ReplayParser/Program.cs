@@ -1,21 +1,39 @@
-﻿namespace DotaIt.ReplayParser
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The program.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace DotaIt.ReplayParser
 {
+    using System;
     using System.IO;
+
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The program.
     /// </summary>
     public class Program
     {
+        /// <summary>
+        /// The main.
+        /// </summary>
+        /// <param name="args">
+        /// The args.
+        /// </param>
         private static void Main(string[] args)
         {
-            byte[] data = File.ReadAllBytes(
-                @"D:\Code\GO\src\github.com\dotabuff\yasha\examples\fileinfo\1016671075.dem");
+            Parser parser = new Parser(@"E:\1016671075.dem");
 
-            Parser parser = new Parser(data);
+            string header = parser.GetDemoHeader();
+            Console.WriteLine(header);
 
-            parser.GetHeader();
-
+            var fileInfo = parser.DirectlyReadFileInfo();
+            Console.WriteLine(JsonConvert.SerializeObject(fileInfo));
         }
     }
 }

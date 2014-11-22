@@ -1,12 +1,11 @@
-﻿namespace DotaIt.ReplayParser.Protobuf
+﻿namespace DotaIt.ReplayParser.DemoProto
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     using ProtoBuf;
 
     [ProtoContract]
-    public class DemoFileInfo
+    public class DemoMessageFileInfoProto
     {
         [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.FixedSize)]
         public float PlayBackTime { get; set; }
@@ -18,18 +17,18 @@
         public int PlayBackFrames { get; set; }
 
         [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
-        public GameInfo GameInfo { get; set; }
+        public GameInfoProto GameInfoProto { get; set; }
     }
 
     [ProtoContract]
-    public class GameInfo
+    public class GameInfoProto
     {
         [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
-        public DotaGameInfo DotaGameInfo { get; set; }
+        public DotaGameInfoProto DotaGameInfoProto { get; set; }
     }
 
     [ProtoContract]
-    public class DotaGameInfo
+    public class DotaGameInfoProto
     {
         [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
         public uint MatchId { get; set; }
@@ -41,13 +40,13 @@
         public int GameWinner { get; set; }
 
         [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
-        public List<PlayerInfo> PlayerList { get; set; }
+        public List<PlayerInfoProto> PlayerList { get; set; }
 
         [ProtoMember(5, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
         public uint LeagueId { get; set; }
 
         [ProtoMember(6, IsRequired = false, DataFormat = DataFormat.Default)]
-        public List<BanPickInfo> BanPickList { get; set; }
+        public List<BanPickInfoProto> BanPickList { get; set; }
 
         [ProtoMember(7, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
         public uint RadiantTeamId { get; set; }
@@ -66,7 +65,7 @@
     }
 
     [ProtoContract]
-    public class PlayerInfo
+    public class PlayerInfoProto
     {
         [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.Default)]
         public string HeroName { get; set; }
@@ -85,7 +84,7 @@
     }
 
     [ProtoContract]
-    public class BanPickInfo
+    public class BanPickInfoProto
     {
         [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.Default)]
         public bool IsPick { get; set; }
