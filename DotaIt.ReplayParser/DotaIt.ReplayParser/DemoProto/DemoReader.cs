@@ -104,11 +104,7 @@
             byte[] messageBody = new byte[messageSize];
             this._fs.Read(messageBody, 0, messageSize);
 
-            var RealKind = DemoMessageBase.RealKind(kindValue);
-            DemoCommandKind kind = RealKind.Item1;
-            bool isCompressed = RealKind.Item2;
-            DemoMessageBase messageBase = DemoMessageFactory.CreateDemoMessage(kind, tick, messageBody, isCompressed);
-
+            DemoMessageBase messageBase = DemoMessageFactory.CreateDemoMessage(kindValue, tick, messageBody);
             return messageBase;
         }
 

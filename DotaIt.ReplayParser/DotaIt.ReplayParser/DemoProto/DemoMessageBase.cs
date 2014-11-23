@@ -7,8 +7,10 @@
     /// <summary>
     ///     The demo message base.
     /// </summary>
-    public class DemoMessageBase
+    public class DemoMessageBase : MessageBase
     {
+        public static readonly int IsCompressedTag = (int)DemoCommandKind.DEM_IsCompressed;
+
         /// <summary>
         /// The kind.
         /// </summary>
@@ -24,32 +26,12 @@
         /// </summary>
         protected bool _isCompressed = false;
 
-        /// <summary>
-        /// The message.
-        /// </summary>
-        protected byte[] _message = null;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DemoMessageBase"/> class.
-        /// </summary>
-        /// <param name="kind">
-        /// The kind.
-        /// </param>
-        /// <param name="tick">
-        /// The tick.
-        /// </param>
-        /// <param name="isCompressed">
-        /// The is compressed.
-        /// </param>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        public DemoMessageBase(DemoCommandKind kind, int tick, bool isCompressed, byte[] message)
+        public DemoMessageBase(int kindValue, int tick, byte[] message)
+            : base(kindValue, message)
         {
-            this._kind = kind;
             this._tick = tick;
-            this._isCompressed = isCompressed;
-            this._message = message;
+            this._isCompressed = (kindValue & IsCompressedTag) == IsCompressedTag;
+            this._kind = DemoCommandKind.DEM_Error;
         }
 
         /// <summary>
@@ -59,7 +41,7 @@
         {
             get
             {
-                return this._message;
+                return this.Message;
             }
         }
 
@@ -71,17 +53,6 @@
             get
             {
                 return this._tick;
-            }
-        }
-
-        /// <summary>
-        /// Gets the message.
-        /// </summary>
-        public byte[] Message
-        {
-            get
-            {
-                return this._message;
             }
         }
 
@@ -118,20 +89,19 @@
         /// </returns>
         public static Tuple<DemoCommandKind, bool> RealKind(int kindValue)
         {
-            return
-                new Tuple<DemoCommandKind, bool>(
-                    (DemoCommandKind)(kindValue & (~(int)DemoCommandKind.DEM_IsCompressed)),
-                    kindValue > (int)DemoCommandKind.DEM_IsCompressed);
+            return new Tuple<DemoCommandKind, bool>(
+                (DemoCommandKind)(kindValue & ~IsCompressedTag),
+                kindValue > IsCompressedTag);
         }
 
         /// <summary>
         ///     Decompressed and build message instance.
         /// </summary>
-        public virtual void BuildMessageInstance()
+        public override void BuildMessageInstance()
         {
             if (this.IsMessageCompressed)
             {
-                this._message = SnappyCodec.Uncompress(this.Message);
+                this.Message = SnappyCodec.Uncompress(this.Message);
             }
         }
     }

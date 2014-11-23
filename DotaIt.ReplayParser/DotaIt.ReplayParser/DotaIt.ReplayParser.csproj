@@ -58,16 +58,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoProto\DemoMessageFileHeader.cs" />
-    <Compile Include="DemoProto\DemoMessageFileHeaderProto.cs" />
     <Compile Include="DemoProto\DemoMessageFileInfo.cs" />
     <Compile Include="DemoProto\DemoMessageBase.cs" />
     <Compile Include="DemoProto\DemoMessageFactory.cs" />
+    <Compile Include="DemoProto\DemoMessageSignonPacket.cs" />
     <Compile Include="DemoProto\DemoReader.cs" />
+    <Compile Include="DemoProto\DemoForeplay.cs" />
+    <Compile Include="DemoProto\DemoNetMessage.cs" />
+    <Compile Include="DemoProto\DemoSVCMassage.cs" />
+    <Compile Include="DemoProto\MessageBase.cs" />
     <Compile Include="DotaResources\DotaHero.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="DemoProto\DemoMessageFileInfoProto.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Ability.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Buyback.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Damage.cs" />

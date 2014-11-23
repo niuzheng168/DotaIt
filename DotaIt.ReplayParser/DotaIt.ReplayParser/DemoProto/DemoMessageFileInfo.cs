@@ -1,5 +1,6 @@
 ﻿namespace DotaIt.ReplayParser.DemoProto
 {
+    using System.Collections.Generic;
     using System.IO;
 
     using ProtoBuf;
@@ -20,24 +21,10 @@
 
         #region Constructors and Destructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DemoMessageFileInfo"/> class.
-        /// </summary>
-        /// <param name="kind">
-        /// The kind.
-        /// </param>
-        /// <param name="tick">
-        /// The tick.
-        /// </param>
-        /// <param name="isCompressed">
-        /// The is compressed.
-        /// </param>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        public DemoMessageFileInfo(DemoCommandKind kind, int tick, bool isCompressed, byte[] message)
-            : base(kind, tick, isCompressed, message)
+        public DemoMessageFileInfo(int kindValue, int tick, byte[] message)
+            : base(kindValue, tick, message)
         {
+            this._kind = DemoCommandKind.DEM_FileInfo;
         }
 
         #endregion
@@ -65,12 +52,104 @@
         public override void BuildMessageInstance()
         {
             base.BuildMessageInstance();
-            using (MemoryStream ms = new MemoryStream(this._message))
+            using (MemoryStream ms = new MemoryStream(this.Message))
             {
                 this._info = Serializer.Deserialize<DemoMessageFileInfoProto>(ms);
             }
         }
 
         #endregion
+    }
+
+    [ProtoContract]
+    public class DemoMessageFileInfoProto
+    {
+        [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.FixedSize)]
+        public float PlayBackTime { get; set; }
+
+        [ProtoMember(2, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int PlayBackTicks { get; set; }
+
+        [ProtoMember(3, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int PlayBackFrames { get; set; }
+
+        [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
+        public GameInfoProto GameInfoProto { get; set; }
+    }
+
+    [ProtoContract]
+    public class GameInfoProto
+    {
+        [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
+        public DotaGameInfoProto DotaGameInfoProto { get; set; }
+    }
+
+    [ProtoContract]
+    public class DotaGameInfoProto
+    {
+        [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint MatchId { get; set; }
+
+        [ProtoMember(2, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int GameMode { get; set; }
+
+        [ProtoMember(3, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int GameWinner { get; set; }
+
+        [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
+        public List<PlayerInfoProto> PlayerList { get; set; }
+
+        [ProtoMember(5, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint LeagueId { get; set; }
+
+        [ProtoMember(6, IsRequired = false, DataFormat = DataFormat.Default)]
+        public List<BanPickInfoProto> BanPickList { get; set; }
+
+        [ProtoMember(7, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint RadiantTeamId { get; set; }
+
+        [ProtoMember(8, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint DireTeamId { get; set; }
+
+        [ProtoMember(9, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string RadiantTeamName { get; set; }
+
+        [ProtoMember(10, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string DireTeamName { get; set; }
+
+        [ProtoMember(11, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint EndTime { get; set; }
+    }
+
+    [ProtoContract]
+    public class PlayerInfoProto
+    {
+        [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string HeroName { get; set; }
+
+        [ProtoMember(2, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string PlayerName { get; set; }
+
+        [ProtoMember(3, IsRequired = false, DataFormat = DataFormat.Default)]
+        public bool IsFakeClient { get; set; }
+
+        [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public ulong SteamId { get; set; }
+
+        [ProtoMember(5, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int TeamInGame { get; set; }
+    }
+
+    [ProtoContract]
+    public class BanPickInfoProto
+    {
+        [ProtoMember(1, IsRequired = false, DataFormat = DataFormat.Default)]
+        public bool IsPick { get; set; }
+
+        [ProtoMember(2, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint TeamId { get; set; }
+
+        [ProtoMember(3, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public uint HeroId { get; set; }
     }
 }

@@ -20,24 +20,10 @@
 
         #region Constructors and Destructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DemoMessageFileHeader"/> class.
-        /// </summary>
-        /// <param name="kind">
-        /// The kind.
-        /// </param>
-        /// <param name="tick">
-        /// The tick.
-        /// </param>
-        /// <param name="isCompressed">
-        /// The is compressed.
-        /// </param>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        public DemoMessageFileHeader(DemoCommandKind kind, int tick, bool isCompressed, byte[] message)
-            : base(kind, tick, isCompressed, message)
+        public DemoMessageFileHeader(int kindValue, int tick, byte[] message)
+            : base(kindValue, tick, message)
         {
+            this._kind = DemoCommandKind.DEM_FileHeader;
         }
 
         #endregion
@@ -65,12 +51,46 @@
         public override void BuildMessageInstance()
         {
             base.BuildMessageInstance();
-            using (MemoryStream ms = new MemoryStream(this._message))
+            using (MemoryStream ms = new MemoryStream(this.Message))
             {
                 this._header = Serializer.Deserialize<DemoMessageFileHeaderProto>(ms);
             }
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// The demo message file header proto.
+    /// </summary>
+    [ProtoContract]
+    public class DemoMessageFileHeaderProto
+    {
+        [ProtoMember(1, IsRequired = true, DataFormat = DataFormat.Default)]
+        public string DemoFileStamp { get; set; }
+
+        [ProtoMember(2, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int NetWorkProtocol { get; set; }
+
+        [ProtoMember(3, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string ServerName { get; set; }
+
+        [ProtoMember(4, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string ClientName { get; set; }
+
+        [ProtoMember(5, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string MapName { get; set; }
+
+        [ProtoMember(6, IsRequired = false, DataFormat = DataFormat.Default)]
+        public string GameDirectory { get; set; }
+
+        [ProtoMember(7, IsRequired = false, DataFormat = DataFormat.TwosComplement)]
+        public int FullVersion { get; set; }
+
+        [ProtoMember(8, IsRequired = false, DataFormat = DataFormat.Default)]
+        public bool AllowClientSideEntities { get; set; }
+
+        [ProtoMember(9, IsRequired = false, DataFormat = DataFormat.Default)]
+        public bool AllowClientSideParticles { get; set; }
     }
 }

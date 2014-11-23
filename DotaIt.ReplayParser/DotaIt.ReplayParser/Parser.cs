@@ -1,7 +1,9 @@
 ﻿namespace DotaIt.ReplayParser
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text;
 
     using DotaIt.ReplayParser.DemoProto;
@@ -20,6 +22,8 @@
         private FileStream _fs;
 
         private DemoReader _demoReader;
+
+        private DemoForeplay _foreplay;
 
         #region Constructors and Destructors
 
@@ -65,11 +69,32 @@
         public void Parse()
         {
             _demoReader.SetReaderStartPos(12);
+            this.BuildForeplay();
+
+        }
+
+        private void BuildForeplay()
+        {
+            _foreplay = new DemoForeplay();
             while (true)
             {
-                var message = _demoReader.ReadDemoMessage();
-                message.BuildMessageInstance();
+                var message = this._demoReader.ReadDemoMessage();
+                if (message.KindValue == (int)DemoCommandKind.DEM_SyncTick)
+                {
+                    break;
+                }
+                else
+                {
+                    message.BuildMessageInstance();
+                    this._foreplay.DemoMessageList.Add(message);
+                }
             }
+
+            _foreplay.DemoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_SignonPacket)
+                .ToList()
+                .ForEach(y => _foreplay.SignonPackets.Add(y as DemoMessageSignonPacket));
+
+            _foreplay.UnpackSignonPackets();
         }
 
         #endregion

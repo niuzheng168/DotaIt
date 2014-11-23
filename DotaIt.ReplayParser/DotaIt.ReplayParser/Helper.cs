@@ -1,6 +1,9 @@
 ﻿namespace DotaIt.ReplayParser
 {
     using System;
+    using System.IO;
+
+    using ProtoBuf;
 
     /// <summary>
     ///     The helper.
@@ -32,6 +35,15 @@
             Array.Copy(data, index, result, 0, length);
             return result;
         }
+
+        public static T DeserilizedFromBytes<T>(byte[] buffer)
+        {
+            using (MemoryStream ms = new MemoryStream(buffer))
+            {
+                return Serializer.Deserialize<T>(ms);
+            }
+        }
+
 
         #endregion
     }
