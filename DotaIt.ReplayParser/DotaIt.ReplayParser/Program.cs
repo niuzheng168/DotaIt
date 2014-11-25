@@ -27,7 +27,7 @@ namespace DotaIt.ReplayParser
         /// </param>
         private static void Main(string[] args)
         {
-            Parser parser = new Parser(@"E:\1016671075.dem");
+            Parser parser = new Parser(@"D:\1016671075.dem");
 
             string header = parser.GetDemoHeader();
             Console.WriteLine(header);

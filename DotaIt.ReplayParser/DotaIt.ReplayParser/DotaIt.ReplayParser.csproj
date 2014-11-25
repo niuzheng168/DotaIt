@@ -57,16 +57,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DemoProto\DemoMessageFileHeader.cs" />
-    <Compile Include="DemoProto\DemoMessageFileInfo.cs" />
-    <Compile Include="DemoProto\DemoMessageBase.cs" />
-    <Compile Include="DemoProto\DemoMessageFactory.cs" />
-    <Compile Include="DemoProto\DemoMessageSignonPacket.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageClassInfo.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageFileHeader.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageFileInfo.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageBase.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageFactory.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageSendTable.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageSignonPacket.cs" />
     <Compile Include="DemoProto\DemoReader.cs" />
     <Compile Include="DemoProto\DemoForeplay.cs" />
     <Compile Include="DemoProto\DemoNetMessage.cs" />
     <Compile Include="DemoProto\DemoSVCMassage.cs" />
     <Compile Include="DemoProto\MessageBase.cs" />
+    <Compile Include="DemoProto\IPacked.cs" />
+    <Compile Include="DemoProto\PacketMessage.cs" />
+    <Compile Include="DemoProto\ProtoDef\DemoMessages.cs" />
+    <Compile Include="DemoProto\ProtoDef\NetMessages.cs" />
     <Compile Include="DotaResources\DotaHero.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Parser.cs" />

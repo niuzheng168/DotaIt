@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
+
+    using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     using ProtoBuf;
 
@@ -22,75 +25,122 @@
             }
         }
 
-        private List<DemoMessageSignonPacket> _signonPackets = new List<DemoMessageSignonPacket>();
+        private List<DemoMessageSignonPacket> _signonPacketMessageList = new List<DemoMessageSignonPacket>();
 
-        public List<DemoMessageSignonPacket> SignonPackets
+        //public List<DemoMessageSignonPacket> SignonPackets
+        //{
+        //    get
+        //    {
+        //        return this._signonPackets;
+        //    }
+        //}
+
+        private List<MessageBase> _packets = new List<MessageBase>();
+
+        public List<MessageBase> Packets
         {
             get
             {
-                return this._signonPackets;
+                return this._packets;
             }
         }
 
-        private List<MessageBase> _unPackedMessageList = new List<MessageBase>();
+        private List<DemoMessageSendTable> _sendTablesMessageList = new List<DemoMessageSendTable>();
 
-        public List<MessageBase> UnPackedMessageList
+        //public List<DemoMessageSendTable> SendTablesMessageList
+        //{
+        //    get
+        //    {
+        //        return this._sendTablesMessageList;
+        //    }
+        //}
+
+        private Dictionary<string, DemoSVCMassage<CSVCMsg_SendTable>> _sendTables = new Dictionary<string, DemoSVCMassage<CSVCMsg_SendTable>>();
+
+        public Dictionary<string, DemoSVCMassage<CSVCMsg_SendTable>> SendTables
         {
             get
             {
-                return _unPackedMessageList;
+                return this._sendTables;
             }
         }
 
-        public void UnpackSignonPackets()
+        private List<DemoMessageClassInfo> _classInfoMessageList = new List<DemoMessageClassInfo>();
+
+        private Dictionary<string, DemoSVCMassage<CSVCMsg_ClassInfo>> _classInfo = new Dictionary<string, DemoSVCMassage<CSVCMsg_ClassInfo>>();
+
+        public Dictionary<string, DemoSVCMassage<CSVCMsg_ClassInfo>> ClassInfo
         {
-            foreach (DemoMessageSignonPacket packet in SignonPackets)
+            get
             {
-                using (MemoryStream ms = new MemoryStream(packet.MessageInstance.Data))
-                {
-                    int kindValue = ProtoReader.DirectReadVarintInt32(ms);
-                    int size = ProtoReader.DirectReadVarintInt32(ms);
-                    byte[] buffer = new byte[size];
-                    ms.Read(buffer, 0, size);
-                    MessageBase m = SignonPacketMessageFactory.CreateMessage(kindValue, buffer);
-                    if (m != null)
+                return this._classInfo;
+            }
+        }
+
+        public void Initialize()
+        {
+            this.ProcessSignonPackets();
+            this.ProcessSendTables();
+            this.ProcessClassInfo();
+        }
+
+        private void ProcessClassInfo()
+        {
+            this.DemoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_ClassInfo).ToList().ForEach(
+                y =>
                     {
-                        m.BuildMessageInstance();
-                        _unPackedMessageList.Add(m);
-                    }
-                }
-            }
-        }
-    }
+                        y.BuildMessageInstance();
+                        this._classInfoMessageList.Add(y as DemoMessageClassInfo);
+                    });
 
-    internal static class SignonPacketMessageFactory
-    {
-        static Dictionary<int, Type> MessageTypeMap = new Dictionary<int, Type>();
-        static Dictionary<int, Func<int, byte[], MessageBase>> MessageCreatorMap = new Dictionary<int, Func<int, byte[], MessageBase>>();
-
-        static SignonPacketMessageFactory()
-        {
-            MessageTypeMap.Add((int)NetMessageKind.net_SetConVar, typeof(DemoNetMessage<CNETMsg_SetConVar_Proto>));
-            MessageTypeMap.Add((int)SVCMessageKind.svc_ServerInfo, typeof(DemoSVCMassage<CSVCMsg_ServerInfo_Proto>));
-
-
-            MessageCreatorMap.Add((int)NetMessageKind.net_SetConVar, DemoNetMessage<CNETMsg_SetConVar_Proto>.Create);
-            MessageCreatorMap.Add((int)SVCMessageKind.svc_ServerInfo, DemoSVCMassage<CSVCMsg_ServerInfo_Proto>.Create);
+            this._classInfoMessageList.ForEach(
+                x =>
+                    {
+                        x.Unpack();
+                        foreach (MessageBase message in x.UnpackedMessageList)
+                        {
+                            DemoSVCMassage<CSVCMsg_SendTable> m = message as DemoSVCMassage<CSVCMsg_SendTable>;
+                            this.SendTables.Add(m.MessageInstance.net_table_name, m);
+                        }
+                    });
         }
 
-        internal static MessageBase CreateMessage(int kindValue, byte[] message)
+        private void ProcessSignonPackets()
         {
-            if (MessageTypeMap.ContainsKey(kindValue))
-            {
-                var creator = MessageCreatorMap[kindValue];
-                var m = creator.Invoke(kindValue, message);
-                return m;
-            }
-            else
-            {
-                Debug.WriteLine(string.Format("Invalid message kind in signon packets: {0}"), kindValue);
-                return null;
-            }
+            this.DemoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_SignonPacket).ToList().ForEach(
+                y =>
+                    {
+                        y.BuildMessageInstance();
+                        this._signonPacketMessageList.Add(y as DemoMessageSignonPacket);
+                    });
+
+            this._signonPacketMessageList.ForEach(
+                x =>
+                    {
+                        x.Unpack();
+                        this.Packets.AddRange(x.UnpackedMessageList);
+                    });
+        }
+
+        private void ProcessSendTables()
+        {
+            this.DemoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_SendTables).ToList().ForEach(
+                y =>
+                    {
+                        y.BuildMessageInstance();
+                        this._sendTablesMessageList.Add(y as DemoMessageSendTable);
+                    });
+
+            this._sendTablesMessageList.ForEach(
+                x =>
+                    {
+                        x.Unpack();
+                        foreach (MessageBase message in x.UnpackedMessageList)
+                        {
+                            DemoSVCMassage<CSVCMsg_SendTable> m = message as DemoSVCMassage<CSVCMsg_SendTable>;
+                            this.SendTables.Add(m.MessageInstance.net_table_name, m);
+                        }
+                    });
         }
     }
 }

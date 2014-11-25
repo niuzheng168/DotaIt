@@ -85,16 +85,11 @@
                 }
                 else
                 {
-                    message.BuildMessageInstance();
                     this._foreplay.DemoMessageList.Add(message);
                 }
             }
 
-            _foreplay.DemoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_SignonPacket)
-                .ToList()
-                .ForEach(y => _foreplay.SignonPackets.Add(y as DemoMessageSignonPacket));
-
-            _foreplay.UnpackSignonPackets();
+            _foreplay.Initialize();
         }
 
         #endregion

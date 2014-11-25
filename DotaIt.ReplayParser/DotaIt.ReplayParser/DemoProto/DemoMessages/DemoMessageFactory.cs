@@ -22,6 +22,12 @@
                 case DemoCommandKind.DEM_SignonPacket:
                     message = new DemoMessageSignonPacket(kindValue, tick, messageBody);
                     break;
+                case DemoCommandKind.DEM_SendTables:
+                    message = new DemoMessageSendTable(kindValue, tick, messageBody);
+                    break;
+                case DemoCommandKind.DEM_ClassInfo:
+                    message = new DemoMessageClassInfo(kindValue, tick, messageBody);
+                    break;
                 default:
                     message = new DemoMessageBase(kindValue, tick, messageBody);
                     break;
