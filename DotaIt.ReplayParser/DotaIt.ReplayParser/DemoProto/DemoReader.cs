@@ -34,6 +34,14 @@
 
         #endregion
 
+        public bool IsEnd
+        {
+            get
+            {
+                return this._fs.Position < this._fs.Length;
+            }
+        }
+
         #region Constructors and Destructors
 
         /// <summary>

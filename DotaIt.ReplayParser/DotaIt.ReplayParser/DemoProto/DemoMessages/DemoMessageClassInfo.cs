@@ -10,7 +10,7 @@
     /// <summary>
     /// The demo message class info.
     /// </summary>
-    public class DemoMessageClassInfo : DemoMessageBase, IPacked
+    public class DemoMessageClassInfo : DemoMessageBase
     {
         public DemoMessageClassInfo(int kindValue, int tick, byte[] message)
             : base(kindValue, tick, message)
@@ -31,36 +31,6 @@
         {
             base.BuildMessageInstance();
             _classInfo = Helper.DeserilizedFromBytes<CDemoClassInfo>(Message);
-        }
-
-        public void Unpack()
-        {
-            using (MemoryStream ms = new MemoryStream(this.MessageInstance.classes))
-            {
-                while (ms.Position < ms.Length)
-                {
-                    int kindValue = ProtoReader.DirectReadVarintInt32(ms);
-                    int size = ProtoReader.DirectReadVarintInt32(ms);
-                    byte[] buffer = new byte[size];
-                    ms.Read(buffer, 0, size);
-                    MessageBase m = PacketMessage.CreateMessage(kindValue, buffer);
-                    if (m != null)
-                    {
-                        m.BuildMessageInstance();
-                        _unpackedMessageList.Add(m);
-                    }
-                }
-            }
-        }
-
-        private List<MessageBase> _unpackedMessageList = new List<MessageBase>();
-
-        public List<MessageBase> UnpackedMessageList
-        {
-            get
-            {
-                return _unpackedMessageList;
-            }
         }
     }
 }

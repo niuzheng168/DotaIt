@@ -6,17 +6,40 @@
 
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
-    internal class PacketMessage
+    public class PacketMessage<T> : MessageBase
     {
-        static Dictionary<int, Type> MessageTypeMap = new Dictionary<int, Type>();
-        static Dictionary<int, Func<int, byte[], MessageBase>> MessageCreatorMap = new Dictionary<int, Func<int, byte[], MessageBase>>();
-
-        static PacketMessage()
+        public PacketMessage(int kindValue, byte[] message)
+            : base(kindValue, message)
         {
-            // Use reflactor sees slow than function invoke
-            //MessageTypeMap.Add((int)NetMessageKind.net_SetConVar, typeof(DemoNetMessage<CNETMsg_SetConVar_Proto>));
-            //MessageTypeMap.Add((int)SVCMessageKind.svc_ServerInfo, typeof(DemoSVCMassage<CSVCMsg_ServerInfo_Proto>));
+        }
 
+        private T _messageInstance;
+        public T MessageInstance
+        {
+            get
+            {
+                return _messageInstance;
+            }
+        }
+
+        public override void BuildMessageInstance()
+        {
+            _messageInstance = Helper.DeserilizedFromBytes<T>(Message);
+        }
+
+        public static PacketMessage<T> Create(int kind, byte[] message)
+        {
+            PacketMessage<T> svcMessages = new PacketMessage<T>(kind, message);
+            return svcMessages;
+        }
+    }
+
+    public static class PacketMessageFactory
+    {
+        private static Dictionary<int, Func<int, byte[], MessageBase>> MessageCreatorMap = new Dictionary<int, Func<int, byte[], MessageBase>>();
+
+        static PacketMessageFactory()
+        {
             MessageCreatorMap.Add((int)NET_Messages_Kind.net_SetConVar, DemoNetMessage<CNETMsg_SetConVar>.Create);
             MessageCreatorMap.Add((int)NET_Messages_Kind.net_Tick, DemoNetMessage<CNETMsg_Tick>.Create);
             MessageCreatorMap.Add((int)NET_Messages_Kind.net_SignonState, DemoNetMessage<CNETMsg_SignonState>.Create);

@@ -1,6 +1,7 @@
 ﻿namespace DotaIt.ReplayParser
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
 
     using ProtoBuf;
@@ -44,6 +45,12 @@
             }
         }
 
+        public static void Swap<T>(this List<T> list, int x, int y)
+        {
+            T tmp = list[x];
+            list[x] = list[y];
+            list[y] = tmp;
+        }
 
         #endregion
     }

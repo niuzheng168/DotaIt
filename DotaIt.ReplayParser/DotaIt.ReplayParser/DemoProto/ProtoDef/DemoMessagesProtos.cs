@@ -533,79 +533,79 @@ namespace DotaIt.ReplayParser.DemoProto.ProtoDef
     {
         public CDemoStringTables() { }
 
-        private readonly global::System.Collections.Generic.List<CDemoStringTables.table_t> _tables = new global::System.Collections.Generic.List<CDemoStringTables.table_t>();
+        private readonly global::System.Collections.Generic.List<table_t> _tables = new global::System.Collections.Generic.List<table_t>();
         [global::ProtoBuf.ProtoMember(1, Name = @"tables", DataFormat = global::ProtoBuf.DataFormat.Default)]
-        public global::System.Collections.Generic.List<CDemoStringTables.table_t> tables
+        public global::System.Collections.Generic.List<table_t> tables
         {
             get { return _tables; }
         }
 
-        [global::System.Serializable, global::ProtoBuf.ProtoContract(Name = @"items_t")]
-        public partial class items_t : global::ProtoBuf.IExtensible
-        {
-            public items_t() { }
+        private global::ProtoBuf.IExtension extensionObject;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+    }
 
-            private string _str = "";
-            [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name = @"str", DataFormat = global::ProtoBuf.DataFormat.Default)]
-            [global::System.ComponentModel.DefaultValue("")]
-            public string str
-            {
-                get { return _str; }
-                set { _str = value; }
-            }
-            private byte[] _data = null;
-            [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name = @"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
-            [global::System.ComponentModel.DefaultValue(null)]
-            public byte[] data
-            {
-                get { return _data; }
-                set { _data = value; }
-            }
-            private global::ProtoBuf.IExtension extensionObject;
-            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-            { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+    [global::System.Serializable, global::ProtoBuf.ProtoContract(Name = @"items_t")]
+    public partial class items_t : global::ProtoBuf.IExtensible
+    {
+        public items_t() { }
+
+        private string _str = "";
+        [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name = @"str", DataFormat = global::ProtoBuf.DataFormat.Default)]
+        [global::System.ComponentModel.DefaultValue("")]
+        public string str
+        {
+            get { return _str; }
+            set { _str = value; }
+        }
+        private byte[] _data = null;
+        [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name = @"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+        [global::System.ComponentModel.DefaultValue(null)]
+        public byte[] data
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
+        private global::ProtoBuf.IExtension extensionObject;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+    }
+
+    [global::System.Serializable, global::ProtoBuf.ProtoContract(Name = @"table_t")]
+    public partial class table_t : global::ProtoBuf.IExtensible
+    {
+        public table_t() { }
+
+        private string _table_name = "";
+        [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name = @"table_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+        [global::System.ComponentModel.DefaultValue("")]
+        public string table_name
+        {
+            get { return _table_name; }
+            set { _table_name = value; }
+        }
+        private readonly global::System.Collections.Generic.List<items_t> _items = new global::System.Collections.Generic.List<items_t>();
+        [global::ProtoBuf.ProtoMember(2, Name = @"items", DataFormat = global::ProtoBuf.DataFormat.Default)]
+        public global::System.Collections.Generic.List<items_t> items
+        {
+            get { return _items; }
         }
 
-        [global::System.Serializable, global::ProtoBuf.ProtoContract(Name = @"table_t")]
-        public partial class table_t : global::ProtoBuf.IExtensible
+        private readonly global::System.Collections.Generic.List<items_t> _items_clientside = new global::System.Collections.Generic.List<items_t>();
+        [global::ProtoBuf.ProtoMember(3, Name = @"items_clientside", DataFormat = global::ProtoBuf.DataFormat.Default)]
+        public global::System.Collections.Generic.List<items_t> items_clientside
         {
-            public table_t() { }
-
-            private string _table_name = "";
-            [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name = @"table_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
-            [global::System.ComponentModel.DefaultValue("")]
-            public string table_name
-            {
-                get { return _table_name; }
-                set { _table_name = value; }
-            }
-            private readonly global::System.Collections.Generic.List<CDemoStringTables.items_t> _items = new global::System.Collections.Generic.List<CDemoStringTables.items_t>();
-            [global::ProtoBuf.ProtoMember(2, Name = @"items", DataFormat = global::ProtoBuf.DataFormat.Default)]
-            public global::System.Collections.Generic.List<CDemoStringTables.items_t> items
-            {
-                get { return _items; }
-            }
-
-            private readonly global::System.Collections.Generic.List<CDemoStringTables.items_t> _items_clientside = new global::System.Collections.Generic.List<CDemoStringTables.items_t>();
-            [global::ProtoBuf.ProtoMember(3, Name = @"items_clientside", DataFormat = global::ProtoBuf.DataFormat.Default)]
-            public global::System.Collections.Generic.List<CDemoStringTables.items_t> items_clientside
-            {
-                get { return _items_clientside; }
-            }
-
-            private int _table_flags = default(int);
-            [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name = @"table_flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-            [global::System.ComponentModel.DefaultValue(default(int))]
-            public int table_flags
-            {
-                get { return _table_flags; }
-                set { _table_flags = value; }
-            }
-            private global::ProtoBuf.IExtension extensionObject;
-            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-            { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+            get { return _items_clientside; }
         }
 
+        private int _table_flags = default(int);
+        [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name = @"table_flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+        [global::System.ComponentModel.DefaultValue(default(int))]
+        public int table_flags
+        {
+            get { return _table_flags; }
+            set { _table_flags = value; }
+        }
         private global::ProtoBuf.IExtension extensionObject;
         global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
         { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

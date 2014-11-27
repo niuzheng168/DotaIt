@@ -3097,11 +3097,11 @@
             }
         }
 
-        private readonly global::System.Collections.Generic.List<CSVCMsg_SendTable.sendprop_t> _props =
-            new global::System.Collections.Generic.List<CSVCMsg_SendTable.sendprop_t>();
+        private readonly global::System.Collections.Generic.List<sendprop_t> _props =
+            new global::System.Collections.Generic.List<sendprop_t>();
 
         [global::ProtoBuf.ProtoMember(4, Name = @"props", DataFormat = global::ProtoBuf.DataFormat.Default)]
-        public global::System.Collections.Generic.List<CSVCMsg_SendTable.sendprop_t> props
+        public global::System.Collections.Generic.List<sendprop_t> props
         {
             get
             {
@@ -3109,172 +3109,172 @@
             }
         }
 
-        [global::System.Serializable]
-        [global::ProtoBuf.ProtoContract(Name = @"sendprop_t")]
-        public partial class sendprop_t : global::ProtoBuf.IExtensible
+        private global::ProtoBuf.IExtension extensionObject;
+
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
         {
-            public sendprop_t()
+            return global::ProtoBuf.Extensible.GetExtensionObject(ref this.extensionObject, createIfMissing);
+        }
+    }
+
+    [global::System.Serializable]
+    [global::ProtoBuf.ProtoContract(Name = @"sendprop_t")]
+    public partial class sendprop_t : global::ProtoBuf.IExtensible
+    {
+        public sendprop_t()
+        {
+        }
+
+        private int _type = default(int);
+
+        [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name = @"type",
+            DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+        [global::System.ComponentModel.DefaultValue(default(int))]
+        public int type
+        {
+            get
             {
+                return this._type;
             }
-
-            private int _type = default(int);
-
-            [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name = @"type",
-                DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-            [global::System.ComponentModel.DefaultValue(default(int))]
-            public int type
+            set
             {
-                get
-                {
-                    return this._type;
-                }
-                set
-                {
-                    this._type = value;
-                }
+                this._type = value;
             }
+        }
 
-            private string _var_name = "";
+        private string _var_name = "";
 
-            [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name = @"var_name",
-                DataFormat = global::ProtoBuf.DataFormat.Default)]
-            [global::System.ComponentModel.DefaultValue("")]
-            public string var_name
+        [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name = @"var_name",
+            DataFormat = global::ProtoBuf.DataFormat.Default)]
+        [global::System.ComponentModel.DefaultValue("")]
+        public string var_name
+        {
+            get
             {
-                get
-                {
-                    return this._var_name;
-                }
-                set
-                {
-                    this._var_name = value;
-                }
+                return this._var_name;
             }
-
-            private int _flags = default(int);
-
-            [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name = @"flags",
-                DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-            [global::System.ComponentModel.DefaultValue(default(int))]
-            public int flags
+            set
             {
-                get
-                {
-                    return this._flags;
-                }
-                set
-                {
-                    this._flags = value;
-                }
+                this._var_name = value;
             }
+        }
 
-            private int _priority = default(int);
+        private int _flags = default(int);
 
-            [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name = @"priority",
-                DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-            [global::System.ComponentModel.DefaultValue(default(int))]
-            public int priority
+        [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name = @"flags",
+            DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+        [global::System.ComponentModel.DefaultValue(default(int))]
+        public int flags
+        {
+            get
             {
-                get
-                {
-                    return this._priority;
-                }
-                set
-                {
-                    this._priority = value;
-                }
+                return this._flags;
             }
-
-            private string _dt_name = "";
-
-            [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name = @"dt_name",
-                DataFormat = global::ProtoBuf.DataFormat.Default)]
-            [global::System.ComponentModel.DefaultValue("")]
-            public string dt_name
+            set
             {
-                get
-                {
-                    return this._dt_name;
-                }
-                set
-                {
-                    this._dt_name = value;
-                }
+                this._flags = value;
             }
+        }
 
-            private int _num_elements = default(int);
+        private int _priority = default(int);
 
-            [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name = @"num_elements",
-                DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-            [global::System.ComponentModel.DefaultValue(default(int))]
-            public int num_elements
+        [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name = @"priority",
+            DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+        [global::System.ComponentModel.DefaultValue(default(int))]
+        public int priority
+        {
+            get
             {
-                get
-                {
-                    return this._num_elements;
-                }
-                set
-                {
-                    this._num_elements = value;
-                }
+                return this._priority;
             }
-
-            private float _low_value = default(float);
-
-            [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name = @"low_value",
-                DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-            [global::System.ComponentModel.DefaultValue(default(float))]
-            public float low_value
+            set
             {
-                get
-                {
-                    return this._low_value;
-                }
-                set
-                {
-                    this._low_value = value;
-                }
+                this._priority = value;
             }
+        }
 
-            private float _high_value = default(float);
+        private string _dt_name = "";
 
-            [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name = @"high_value",
-                DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-            [global::System.ComponentModel.DefaultValue(default(float))]
-            public float high_value
+        [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name = @"dt_name",
+            DataFormat = global::ProtoBuf.DataFormat.Default)]
+        [global::System.ComponentModel.DefaultValue("")]
+        public string dt_name
+        {
+            get
             {
-                get
-                {
-                    return this._high_value;
-                }
-                set
-                {
-                    this._high_value = value;
-                }
+                return this._dt_name;
             }
-
-            private int _num_bits = default(int);
-
-            [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name = @"num_bits",
-                DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-            [global::System.ComponentModel.DefaultValue(default(int))]
-            public int num_bits
+            set
             {
-                get
-                {
-                    return this._num_bits;
-                }
-                set
-                {
-                    this._num_bits = value;
-                }
+                this._dt_name = value;
             }
+        }
 
-            private global::ProtoBuf.IExtension extensionObject;
+        private int _num_elements = default(int);
 
-            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name = @"num_elements",
+            DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+        [global::System.ComponentModel.DefaultValue(default(int))]
+        public int num_elements
+        {
+            get
             {
-                return global::ProtoBuf.Extensible.GetExtensionObject(ref this.extensionObject, createIfMissing);
+                return this._num_elements;
+            }
+            set
+            {
+                this._num_elements = value;
+            }
+        }
+
+        private float _low_value = default(float);
+
+        [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name = @"low_value",
+            DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+        [global::System.ComponentModel.DefaultValue(default(float))]
+        public float low_value
+        {
+            get
+            {
+                return this._low_value;
+            }
+            set
+            {
+                this._low_value = value;
+            }
+        }
+
+        private float _high_value = default(float);
+
+        [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name = @"high_value",
+            DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+        [global::System.ComponentModel.DefaultValue(default(float))]
+        public float high_value
+        {
+            get
+            {
+                return this._high_value;
+            }
+            set
+            {
+                this._high_value = value;
+            }
+        }
+
+        private int _num_bits = default(int);
+
+        [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name = @"num_bits",
+            DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+        [global::System.ComponentModel.DefaultValue(default(int))]
+        public int num_bits
+        {
+            get
+            {
+                return this._num_bits;
+            }
+            set
+            {
+                this._num_bits = value;
             }
         }
 

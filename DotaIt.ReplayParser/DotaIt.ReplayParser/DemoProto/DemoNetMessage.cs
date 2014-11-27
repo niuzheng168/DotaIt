@@ -5,11 +5,10 @@
     /// <summary>
     /// The net messages.
     /// </summary>
-    public class DemoNetMessage<T> : MessageBase
+    public class DemoNetMessage<T> : PacketMessage<T>
     {
         private NET_Messages_Kind _kind;
 
-        private T _messageInstance;
 
         public NET_Messages_Kind Kind
         {
@@ -19,30 +18,16 @@
             }
         }
 
-        public T MessageInstance
-        {
-            get
-            {
-                return _messageInstance;
-            }
-        }
-
         public DemoNetMessage(int kindValue, byte[] message)
             : base(kindValue, message)
         {
             this._kind = (NET_Messages_Kind)kindValue;
         }
 
-        public override void BuildMessageInstance()
+        public new static DemoNetMessage<T> Create(int kind, byte[] message)
         {
-            _messageInstance = Helper.DeserilizedFromBytes<T>(Message);
-        }
-
-        public static DemoNetMessage<T> Create(int kind, byte[] message)
-        {
-            DemoNetMessage<T> netMessage = new DemoNetMessage<T>(kind, message);
-            netMessage.BuildMessageInstance();
-            return netMessage;
+            DemoNetMessage<T> svcMessages = new DemoNetMessage<T>(kind, message);
+            return svcMessages;
         }
     }
 }

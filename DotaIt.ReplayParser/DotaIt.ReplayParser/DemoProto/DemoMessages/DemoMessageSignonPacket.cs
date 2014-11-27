@@ -56,7 +56,7 @@
                     int size = ProtoReader.DirectReadVarintInt32(ms);
                     byte[] buffer = new byte[size];
                     ms.Read(buffer, 0, size);
-                    MessageBase m = PacketMessage.CreateMessage(kindValue, buffer);
+                    MessageBase m = PacketMessageFactory.CreateMessage(kindValue, buffer);
                     if (m != null)
                     {
                         m.BuildMessageInstance();
