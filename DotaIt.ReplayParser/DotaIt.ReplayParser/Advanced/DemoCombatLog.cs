@@ -18,10 +18,15 @@
             }
         }
 
-        public DemoCombatLog(GameEvent rawEvent)
+        public DemoCombatLog(int type)
         {
-            this._rawEvent = rawEvent;
+            CombatLogType = (DOTA_COMBATLOG_TYPES)type;
         }
+
+        public DOTA_COMBATLOG_TYPES CombatLogType { get; set; }
+        public int SourceNameId { get; set; }
+
+        public int TargetNameId { get; set; }
     }
 
     public class DemoCombatLogHelper
@@ -69,24 +74,29 @@
             this.CombatLogTable = stringTable;
 
             this.TypeIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.SourceNameIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.TargetHeroIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.AttackerNameIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.InflictorNameIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.AttackerIllusionIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.TargetIllusionIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.ValueIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.HealthIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.TimestampIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.TargetSourceNameIdx = descriptor.keys.FindIndex(x => x.name == "type");
+            this.SourceNameIdx = descriptor.keys.FindIndex(x => x.name == "sourcename");
+            this.TargetNameIdx = descriptor.keys.FindIndex(x => x.name == "targetname");
+            this.AttackerNameIdx = descriptor.keys.FindIndex(x => x.name == "attackername");
+            this.InflictorNameIdx = descriptor.keys.FindIndex(x => x.name == "inflictorname");
+            this.AttackerIllusionIdx = descriptor.keys.FindIndex(x => x.name == "attackerillusion");
+            this.TargetIllusionIdx = descriptor.keys.FindIndex(x => x.name == "targetillusion");
+            this.ValueIdx = descriptor.keys.FindIndex(x => x.name == "value");
+            this.HealthIdx = descriptor.keys.FindIndex(x => x.name == "health");
+            this.TimestampIdx = descriptor.keys.FindIndex(x => x.name == "timestamp");
+            this.TargetSourceNameIdx = descriptor.keys.FindIndex(x => x.name == "targetsourcename");
 
-            this.TimestampRawIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.AttackerHeroIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.TargetHeroIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.AbilityToggleOnIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.AbilityToggleOffIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.AbilityLevelIdx = descriptor.keys.FindIndex(x => x.name == "type");
-            this.GoldReasonIdx = descriptor.keys.FindIndex(x => x.name == "type");
+            this.TimestampRawIdx = descriptor.keys.FindIndex(x => x.name == "timestampraw");
+            this.AttackerHeroIdx = descriptor.keys.FindIndex(x => x.name == "attackerhero");
+            this.TargetHeroIdx = descriptor.keys.FindIndex(x => x.name == "targethero");
+            this.AbilityToggleOnIdx = descriptor.keys.FindIndex(x => x.name == "ability_toggle_on");
+            this.AbilityToggleOffIdx = descriptor.keys.FindIndex(x => x.name == "ability_toggle_off");
+            this.AbilityLevelIdx = descriptor.keys.FindIndex(x => x.name == "ability_level");
+            this.GoldReasonIdx = descriptor.keys.FindIndex(x => x.name == "gold_reason");
+        }
+
+        public string ConvertIdToString(int id)
+        {
+            return this.CombatLogTable.ItemsByIndex[id].str;
         }
     }
 }

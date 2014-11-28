@@ -22,5 +22,11 @@
             this.EventId = eventId;
             this.Tick = tick;
         }
+
+        public T GetEventProperty<T>(int idx)
+        {
+            T prop = (T)this.State[idx];
+            return prop;
+        }
     }
 }

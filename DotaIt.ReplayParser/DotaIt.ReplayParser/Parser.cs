@@ -60,6 +60,14 @@
         /// </summary>
         public string DemoFilePath { get; set; }
 
+        public Demo Demo
+        {
+            get
+            {
+                return this._demo;
+            }
+        }
+
         #endregion
 
         #region Public Methods and Operators

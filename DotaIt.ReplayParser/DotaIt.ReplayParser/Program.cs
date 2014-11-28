@@ -33,6 +33,8 @@ namespace DotaIt.ReplayParser
             Console.WriteLine(header);
 
             parser.Parse();
+            DemoHelper.ExtractCombatLogs(parser.Demo);
+
 
             var fileInfo = parser.DirectlyReadFileInfo();
             Console.WriteLine(JsonConvert.SerializeObject(fileInfo));
