@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
 
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     using ProtoBuf;
@@ -15,7 +16,7 @@
     public class DemoMessageSendTable : DemoMessageBase, IPacked
     {
         private CDemoSendTables _tables;
-        private List<MessageBase> _unpackedMessageList = new List<MessageBase>();
+        private List<PacketMessageBase> _unpackedMessageList = new List<PacketMessageBase>();
         public DemoMessageSendTable(int kindValue, int tick, byte[] message)
             : base(kindValue, tick, message)
         {
@@ -36,7 +37,7 @@
             _tables = Helper.DeserilizedFromBytes<CDemoSendTables>(Message);
         }
 
-        public void Unpack()
+        public void Unpack(bool autoDeserilizedPackets)
         {
             using (MemoryStream ms = new MemoryStream(this.MessageInstance.data))
             {
@@ -46,17 +47,20 @@
                     int size = ProtoReader.DirectReadVarintInt32(ms);
                     byte[] buffer = new byte[size];
                     ms.Read(buffer, 0, size);
-                    MessageBase m = PacketMessageFactory.CreateMessage(kindValue, buffer);
+                    PacketMessageBase m = PacketMessageFactory.CreatePacketMessage(kindValue, buffer, _tick);
                     if (m != null)
                     {
-                        m.BuildMessageInstance();
-                        _unpackedMessageList.Add(m as MessageBase);
+                        if (autoDeserilizedPackets)
+                        {
+                            m.BuildMessageInstance();
+                        }
+                        _unpackedMessageList.Add(m);
                     }
                 }
             }
         }
 
-        public List<MessageBase> UnpackedMessageList
+        public List<PacketMessageBase> UnpackedMessageList
         {
             get
             {

@@ -7,6 +7,7 @@
 
     using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.DemoMessages;
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>
@@ -24,7 +25,7 @@
         /// <summary>
         /// The _foreplay.
         /// </summary>
-        private DemoForeplay _foreplay;
+        private Demo _demo = new Demo();
 
         /// <summary>
         /// The _fs.
@@ -94,31 +95,17 @@
         {
             this._demoReader.SetReaderStartPos(12);
             this.BuildForeplay();
-            while (_demoReader.IsEnd)
+            while (this._demoReader.IsEnd)
             {
                 DemoMessageBase message = this._demoReader.ReadDemoMessage();
                 if (message is DemoMessageFullPacket)
                 {
-                    DemoMessageFullPacket fullPacket = message as DemoMessageFullPacket;
-                    DemoMessageFactory.CreateDemoMessage((int)DemoCommandKind.DEM_Packet, fullPacket.Tick, fullPacket.MessageInstance.packet.);
+                    
                 }
-                else if (message is IPacked)
+                else if (message is DemoMessagePacket)
                 {
                     message.BuildMessageInstance();
-                    IPacked m = message as IPacked;
-                    m.Unpack();
-                    foreach (MessageBase messageBase in m.UnpackedMessageList)
-                    {
-                        var et = messageBase as DemoSVCMassage<CSVCMsg_GameEvent>;
-                        if (et != null)
-                        {
-                            this.GetGameEvent(et);
-                        }
-                        else
-                        {
-                            Console.WriteLine(messageBase.KindValue);
-                        }
-                    }
+                    this.ProcessPackedDemoMessage((IPacked)message);
                 }
                 else
                 {
@@ -127,45 +114,17 @@
             }
         }
 
-        private void GetGameEvent(DemoSVCMassage<CSVCMsg_GameEvent> et)
+        private void ProcessPackedDemoMessage(IPacked message)
         {
-            int eventId = et.MessageInstance.eventid;
-            var desc = this._foreplay.GameEventList[eventId];
-            GameEvent gameEvent = new GameEvent(desc);
-            for (int i = 0; i < et.MessageInstance.keys.Count; i++)
+            message.Unpack(true);
+            foreach (PacketMessageBase packedMessage in message.UnpackedMessageList)
             {
-                CSVCMsg_GameEvent.key_t key = et.MessageInstance.keys[i];
-                object value = null;
-                switch (key.type)
+                var analysableMessage = packedMessage as IAnalysable;
+                if (analysableMessage != null)
                 {
-                    case 1:
-                        value = key.val_string;
-                        break;
-                    case 2:
-                        value = key.val_float;
-                        break;
-                    case 3:
-                        value = key.val_long;
-                        break;
-                    case 4:
-                        value = key.val_short;
-                        break;
-                    case 5:
-                        value = key.val_byte;
-                        break;
-                    case 6:
-                        value = key.val_bool;
-                        break;
-                    case 7:
-                        value = key.val_uint64;
-                        break;
-                    default:
-                        throw new InvalidDataException();
+                    analysableMessage.AnalysisMessage(this._demo);
                 }
-                gameEvent.State[i] = value;
             }
-
-            this._gameEvents.Add(gameEvent);
         }
 
         #endregion
@@ -177,7 +136,6 @@
         /// </summary>
         private void BuildForeplay()
         {
-            this._foreplay = new DemoForeplay();
             while (true)
             {
                 var message = this._demoReader.ReadDemoMessage();
@@ -186,10 +144,10 @@
                     break;
                 }
 
-                this._foreplay.DemoMessageList.Add(message);
+                this._demo.DemoMessageList.Add(message);
             }
 
-            this._foreplay.Initialize();
+            this._demo.Initialize();
         }
         #endregion
     }

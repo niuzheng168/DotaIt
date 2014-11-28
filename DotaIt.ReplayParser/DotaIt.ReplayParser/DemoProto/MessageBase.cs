@@ -20,7 +20,14 @@
         {
             KindValue = kindValue;
             Message = message;
-            Size = message.Length;
+            if (message == null)
+            {
+                Size = 0;
+            }
+            else
+            {
+                Size = message.Length;
+            }
         }
 
         public virtual void BuildMessageInstance()

@@ -1,8 +1,10 @@
 ﻿namespace DotaIt.ReplayParser.DemoProto.DemoMessages
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
 
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     using ProtoBuf;
@@ -16,6 +18,13 @@
             : base(kindValue, tick, message)
         {
             this._kind = DemoCommandKind.DEM_Packet;
+        }
+
+        public DemoMessagePacket(int tick, CDemoPacket packet)
+            : base((int)DemoCommandKind.DEM_Packet, tick, null)
+        {
+            this._kind = DemoCommandKind.DEM_Packet;
+            this._packet = packet;
         }
 
         public CDemoPacket _packet;
@@ -34,7 +43,7 @@
             _packet = Helper.DeserilizedFromBytes<CDemoPacket>(Message);
         }
 
-        public void Unpack()
+        public void Unpack(bool autoDeserilizedPackets)
         {
             using (MemoryStream ms = new MemoryStream(this.MessageInstance.data))
             {
@@ -44,19 +53,22 @@
                     int size = ProtoReader.DirectReadVarintInt32(ms);
                     byte[] buffer = new byte[size];
                     ms.Read(buffer, 0, size);
-                    MessageBase m = PacketMessageFactory.CreateMessage(kindValue, buffer);
+                    PacketMessageBase m = PacketMessageFactory.CreatePacketMessage(kindValue, buffer, _tick);
                     if (m != null)
                     {
-                        m.BuildMessageInstance();
+                        if (autoDeserilizedPackets)
+                        {
+                            m.BuildMessageInstance();
+                        }
                         _unpackedMessageList.Add(m);
                     }
                 }
             }
         }
 
-        private List<MessageBase> _unpackedMessageList = new List<MessageBase>();
+        private List<PacketMessageBase> _unpackedMessageList = new List<PacketMessageBase>();
 
-        public List<MessageBase> UnpackedMessageList
+        public List<PacketMessageBase> UnpackedMessageList
         {
             get
             {

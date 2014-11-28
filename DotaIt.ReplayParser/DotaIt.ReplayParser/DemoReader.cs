@@ -1,8 +1,10 @@
-﻿namespace DotaIt.ReplayParser.DemoProto
+﻿namespace DotaIt.ReplayParser
 {
     using System;
     using System.IO;
     using System.Text;
+
+    using DotaIt.ReplayParser.DemoProto;
 
     using ProtoBuf;
 

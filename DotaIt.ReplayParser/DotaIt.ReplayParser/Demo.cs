@@ -1,20 +1,17 @@
-﻿namespace DotaIt.ReplayParser.DemoProto
+﻿namespace DotaIt.ReplayParser
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
     using System.Linq;
 
+    using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.DemoMessages;
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
-
-    using ProtoBuf;
 
     /// <summary>
     /// The foreplay.
     /// </summary>
-    public class DemoForeplay
+    public class Demo
     {
         private List<DemoMessageBase> _demoMessageList = new List<DemoMessageBase>();
 
@@ -26,7 +23,7 @@
             }
         }
 
-        public DemoMessageFileHeader _fileHeader;
+        private DemoMessageFileHeader _fileHeader;
 
         public DemoMessageFileHeader FileHeader
         {
@@ -38,9 +35,9 @@
 
         private List<DemoMessageSignonPacket> _signonPacketMessageList = new List<DemoMessageSignonPacket>();
 
-        private List<MessageBase> _packets = new List<MessageBase>();
+        private List<PacketMessageBase> _packets = new List<PacketMessageBase>();
 
-        public List<MessageBase> Packets
+        public List<PacketMessageBase> Packets
         {
             get
             {
@@ -48,20 +45,20 @@
             }
         }
 
-        private Dictionary<int, CSVCMsg_GameEventList.descriptor_t> _gameEventList =
+        private Dictionary<int, CSVCMsg_GameEventList.descriptor_t> _gameEventDescriptors =
             new Dictionary<int, CSVCMsg_GameEventList.descriptor_t>();
 
-        public Dictionary<int, CSVCMsg_GameEventList.descriptor_t> GameEventList
+        public Dictionary<int, CSVCMsg_GameEventList.descriptor_t> GameEventDescriptors
         {
             get
             {
-                return _gameEventList;
+                return this._gameEventDescriptors;
             }
         }
 
-        private DemoSVCMassage<CSVCMsg_ServerInfo> _serverInfo;
+        private SvcServerInfo _serverInfo;
 
-        public DemoSVCMassage<CSVCMsg_ServerInfo> ServerInfo
+        public SvcServerInfo ServerInfo
         {
             get
             {
@@ -69,8 +66,9 @@
             }
         }
 
-        private DemoSVCMassage<CSVCMsg_VoiceInit> _voiceInit;
-        public DemoSVCMassage<CSVCMsg_VoiceInit> VoiceInit
+        private SvcVoiceInit _voiceInit;
+
+        public SvcVoiceInit VoiceInit
         {
             get
             {
@@ -80,9 +78,9 @@
 
         private List<DemoMessageSendTable> _sendTablesMessageList = new List<DemoMessageSendTable>();
 
-        private Dictionary<string, DemoSVCMassage<CSVCMsg_SendTable>> _sendTables = new Dictionary<string, DemoSVCMassage<CSVCMsg_SendTable>>();
+        private Dictionary<string, SvcSendTable> _sendTables = new Dictionary<string, SvcSendTable>();
 
-        public Dictionary<string, DemoSVCMassage<CSVCMsg_SendTable>> SendTables
+        public Dictionary<string, SvcSendTable> SendTables
         {
             get
             {
@@ -124,6 +122,16 @@
             }
         }
 
+        private List<GameEvent> _gameEvents = new List<GameEvent>();
+
+        public List<GameEvent> GameEvents
+        {
+            get
+            {
+                return this._gameEvents;
+            }
+        }
+
         public void Initialize()
         {
             this._fileHeader =
@@ -161,25 +169,25 @@
             this._signonPacketMessageList.ForEach(
                 x =>
                     {
-                        x.Unpack();
+                        x.Unpack(true);
                         this._packets.AddRange(x.UnpackedMessageList);
                     });
 
-            foreach (MessageBase messageBase in this._packets.Where(x => x.KindValue == (int)SVC_Messages_Kind.svc_GameEventList))
+            foreach (PacketMessageBase messageBase in this._packets.Where(x => x.KindValue == (int)SVC_Messages_Kind.svc_GameEventList))
             {
-                DemoSVCMassage<CSVCMsg_GameEventList> m = messageBase as DemoSVCMassage<CSVCMsg_GameEventList>;
+                SvcGameEventList m = messageBase as SvcGameEventList;
                 foreach (var desc in m.MessageInstance.descriptors)
                 {
-                    this._gameEventList.Add(desc.eventid, desc);
+                    this._gameEventDescriptors.Add(desc.eventid, desc);
                 }
             }
 
             this._serverInfo =
                 this._packets.FirstOrDefault(x => x.KindValue == (int)SVC_Messages_Kind.svc_ServerInfo) as
-                DemoSVCMassage<CSVCMsg_ServerInfo>;
+                SvcServerInfo;
 
             this._voiceInit = this._packets.FirstOrDefault(x => x.KindValue == (int)SVC_Messages_Kind.svc_VoiceInit) as
-                DemoSVCMassage<CSVCMsg_VoiceInit>;
+                SvcVoiceInit;
         }
 
         private void ProcessSendTables()
@@ -194,10 +202,10 @@
             this._sendTablesMessageList.ForEach(
                 x =>
                     {
-                        x.Unpack();
-                        foreach (MessageBase message in x.UnpackedMessageList)
+                        x.Unpack(true);
+                        foreach (PacketMessageBase message in x.UnpackedMessageList)
                         {
-                            DemoSVCMassage<CSVCMsg_SendTable> m = message as DemoSVCMassage<CSVCMsg_SendTable>;
+                            SvcSendTable m = message as SvcSendTable;
                             if (m.MessageInstance.is_end)
                             {
                                 break;

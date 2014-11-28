@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.IO;
 
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     using ProtoBuf;
@@ -16,7 +17,7 @@
     {
         private DemoMessagePacketProto _packetInfo;
 
-        private List<MessageBase> _unpackedMessageList = new List<MessageBase>();
+        private List<PacketMessageBase> _unpackedMessageList = new List<PacketMessageBase>();
 
         public DemoMessageSignonPacket(int kindValue, int tick, byte[] message)
             : base(kindValue, tick, message)
@@ -24,7 +25,7 @@
             this._kind = DemoCommandKind.DEM_SignonPacket;
         }
 
-        public List<MessageBase> UnpackedMessageList
+        public List<PacketMessageBase> UnpackedMessageList
         {
             get
             {
@@ -46,7 +47,7 @@
             _packetInfo = Helper.DeserilizedFromBytes<DemoMessagePacketProto>(Message);
         }
 
-        public void Unpack()
+        public void Unpack(bool autoDeserilizedPackets)
         {
             using (MemoryStream ms = new MemoryStream(this.MessageInstance.Data))
             {
@@ -56,10 +57,13 @@
                     int size = ProtoReader.DirectReadVarintInt32(ms);
                     byte[] buffer = new byte[size];
                     ms.Read(buffer, 0, size);
-                    MessageBase m = PacketMessageFactory.CreateMessage(kindValue, buffer);
+                    PacketMessageBase m = PacketMessageFactory.CreatePacketMessage(kindValue, buffer, _tick);
                     if (m != null)
                     {
-                        m.BuildMessageInstance();
+                        if (autoDeserilizedPackets)
+                        {
+                            m.BuildMessageInstance();
+                        }
                         _unpackedMessageList.Add(m);
                     }
                 }
