@@ -3738,7 +3738,6 @@
     [global::ProtoBuf.ProtoContract(Name = @"DOTA_COMBATLOG_TYPES")]
     public enum DOTA_COMBATLOG_TYPES
     {
-
         [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_DAMAGE", Value = 0)]
         DOTA_COMBATLOG_DAMAGE = 0,
 
@@ -3752,7 +3751,34 @@
         DOTA_COMBATLOG_MODIFIER_REMOVE = 3,
 
         [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_DEATH", Value = 4)]
-        DOTA_COMBATLOG_DEATH = 4
+        DOTA_COMBATLOG_DEATH = 4,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_ABILITY", Value = 5)]
+        DOTA_COMBATLOG_ABILITY = 5,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_ITEM", Value = 6)]
+        DOTA_COMBATLOG_ITEM = 6,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_LOCATION", Value = 7)]
+        DOTA_COMBATLOG_LOCATION = 7,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_GOLD", Value = 8)]
+        DOTA_COMBATLOG_GOLD = 8,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_GAME_STATE", Value = 9)]
+        DOTA_COMBATLOG_GAME_STATE = 9,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_XP", Value = 10)]
+        DOTA_COMBATLOG_XP = 10,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_PURCHASE", Value = 11)]
+        DOTA_COMBATLOG_PURCHASE = 11,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_BUYBACK", Value = 12)]
+        DOTA_COMBATLOG_BUYBACK = 12,
+
+        [global::ProtoBuf.ProtoEnum(Name = @"DOTA_COMBATLOG_ABILITY_TRIGGER", Value = 13)]
+        DOTA_COMBATLOG_ABILITY_TRIGGER = 13,
     }
 
     [global::ProtoBuf.ProtoContract(Name = @"EDotaEntityMessages")]

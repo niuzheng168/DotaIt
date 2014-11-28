@@ -45,10 +45,9 @@
             }
         }
 
-        private Dictionary<int, CSVCMsg_GameEventList.descriptor_t> _gameEventDescriptors =
-            new Dictionary<int, CSVCMsg_GameEventList.descriptor_t>();
+        private GameEventDescriptorDic _gameEventDescriptors = new GameEventDescriptorDic();
 
-        public Dictionary<int, CSVCMsg_GameEventList.descriptor_t> GameEventDescriptors
+        public GameEventDescriptorDic GameEventDescriptors
         {
             get
             {
@@ -178,7 +177,7 @@
                 SvcGameEventList m = messageBase as SvcGameEventList;
                 foreach (var desc in m.MessageInstance.descriptors)
                 {
-                    this._gameEventDescriptors.Add(desc.eventid, desc);
+                    this._gameEventDescriptors.Add(desc);
                 }
             }
 
