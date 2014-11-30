@@ -109,15 +109,13 @@
             }
         }
 
-        private List<DemoMessageStringTables> _stringTableMessageList = new List<DemoMessageStringTables>();
+        private StringTableDic _stringTables = new StringTableDic();
 
-        private Dictionary<string, table_t> _stringTables = new Dictionary<string, table_t>();
-
-        public Dictionary<string, table_t> StringTables
+        public StringTableDic StringTables
         {
             get
             {
-                return _stringTables;
+                return this._stringTables;
             }
         }
 
@@ -217,16 +215,32 @@
 
         public void ProcessStringTables()
         {
-            this._demoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_StringTables).ToList().ForEach(
+            this.Packets.Where(x => x.KindValue == (int)SVC_Messages_Kind.svc_CreateStringTable).ToList().ForEach(
                 y =>
                     {
-                        y.BuildMessageInstance();
-                        this._stringTableMessageList.Add(y as DemoMessageStringTables);
-                    });
+                        SvcCreateStringTable message = y as SvcCreateStringTable;
+                        message.BuildMessageInstance();
+                        var instance = message.MessageInstance;
+                        StringTable table = new StringTable(
+                            instance.name,
+                            instance.max_entries,
+                            instance.user_data_fixed_size,
+                            instance.user_data_size,
+                            instance.user_data_size_bits,
+                            instance.flags);
 
-            this._stringTableMessageList.ForEach(
-                x => x.MessageInstance.tables.ForEach(
-                    y => this._stringTables.Add(y.table_name, y)));
+                        this._stringTables.Add(table);
+
+                        List<StringTableItem> list = StringTable.DecodeFromData(
+                            table,
+                            instance.string_data,
+                            instance.num_entries);
+
+                        foreach (StringTableItem item in list)
+                        {
+                            item.ToString();
+                        }
+                    });
         }
     }
 }

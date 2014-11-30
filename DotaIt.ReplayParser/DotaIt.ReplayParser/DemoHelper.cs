@@ -4,6 +4,7 @@
     using System.Linq;
 
     using DotaIt.ReplayParser.Advanced;
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>
@@ -17,7 +18,7 @@
         public static List<DemoCombatLog> ExtractCombatLogs(Demo demo)
         {
             CSVCMsg_GameEventList.descriptor_t descriptor = demo.GameEventDescriptors[CombatLog_Descriptor_Name];
-            table_t stringTable = demo.StringTables[CombatLog_StringTable_Name];
+            StringTable stringTable = demo.StringTables[CombatLog_StringTable_Name];
             DemoCombatLogHelper combatLogHelper = new DemoCombatLogHelper(stringTable, descriptor);
 
             var list = demo.GameEvents.Where(x => x.EventId == descriptor.eventid);

@@ -31,7 +31,7 @@
 
     public class DemoCombatLogHelper
     {
-        public table_t CombatLogTable { get; set; }
+        public StringTable CombatLogTable { get; set; }
 
         public int TypeIdx { get; set; }
 
@@ -69,7 +69,7 @@
 
         public int GoldReasonIdx { get; set; }
 
-        public DemoCombatLogHelper(table_t stringTable, CSVCMsg_GameEventList.descriptor_t descriptor)
+        public DemoCombatLogHelper(StringTable stringTable, CSVCMsg_GameEventList.descriptor_t descriptor)
         {
             this.CombatLogTable = stringTable;
 
@@ -96,7 +96,7 @@
 
         public string ConvertIdToString(int id)
         {
-            return this.CombatLogTable.ItemsByIndex[id].str;
+            return this.CombatLogTable.Names[id];
         }
     }
 }

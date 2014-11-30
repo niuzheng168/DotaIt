@@ -52,6 +52,25 @@
             list[y] = tmp;
         }
 
+        public static int GetBitLength(long num)
+        {
+            int len = 0;
+            while (num > 0)
+            {
+                num >>= 1;
+                len++;
+            }
+
+            return len;
+        }
+
+        public static int ReadInt32(this BinaryReader br, int count)
+        {
+            byte[] buffer = new byte[count];
+            br.Read(buffer, (int)br.BaseStream.Position, count);
+            return BitConverter.ToInt32(buffer, 0);
+        }
+
         #endregion
     }
 }

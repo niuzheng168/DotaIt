@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Advanced\DemoCombatLog.cs" />
+    <Compile Include="Class\BitStream.cs" />
     <Compile Include="DemoHelper.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageClassInfo.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageFileHeader.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="DemoProto\DemoMessages\DemoMessageSendTable.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageSignonPacket.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageStringTables.cs" />
+    <Compile Include="DemoProto\ProtoDef\DotaModifier.cs" />
     <Compile Include="DemoReader.cs" />
     <Compile Include="Demo.cs" />
     <Compile Include="GameEvent.cs" />
