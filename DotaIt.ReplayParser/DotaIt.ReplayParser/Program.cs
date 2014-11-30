@@ -27,9 +27,12 @@ namespace DotaIt.ReplayParser
         /// </param>
         private static void Main(string[] args)
         {
+            DateTime t1 = DateTime.Now;
             Parser parser = new Parser(@"D:\1016671075.dem");
-
             parser.Parse();
+            DateTime t2 = DateTime.Now;
+            int ms = (t2 - t1).Milliseconds;
+            Console.WriteLine("Total Ms: {0}", ms);
             DemoHelper.ExtractCombatLogs(parser.Demo);
         }
     }
