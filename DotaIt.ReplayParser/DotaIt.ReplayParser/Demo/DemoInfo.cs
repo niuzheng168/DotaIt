@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using DotaIt.ReplayParser.Demo;
     using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.DemoMessages;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
@@ -11,7 +12,7 @@
     /// <summary>
     /// The foreplay.
     /// </summary>
-    public class Demo
+    public class DemoInfo
     {
         private List<DemoMessageBase> _demoMessageList = new List<DemoMessageBase>();
 
@@ -52,6 +53,26 @@
             get
             {
                 return this._gameEventDescriptors;
+            }
+        }
+
+        private StringTableDic _stringTables = new StringTableDic();
+
+        public StringTableDic StringTables
+        {
+            get
+            {
+                return this._stringTables;
+            }
+        }
+
+        private DotaMofifierDic _modifiers = new DotaMofifierDic();
+
+        public DotaMofifierDic Modifiers
+        {
+            get
+            {
+                return this._modifiers;
             }
         }
 
@@ -106,16 +127,6 @@
             get
             {
                 return this._reciveTables;
-            }
-        }
-
-        private StringTableDic _stringTables = new StringTableDic();
-
-        public StringTableDic StringTables
-        {
-            get
-            {
-                return this._stringTables;
             }
         }
 
@@ -220,27 +231,41 @@
                     {
                         SvcCreateStringTable message = y as SvcCreateStringTable;
                         message.BuildMessageInstance();
-                        var instance = message.MessageInstance;
-                        StringTable table = new StringTable(
-                            instance.name,
-                            instance.max_entries,
-                            instance.user_data_fixed_size,
-                            instance.user_data_size,
-                            instance.user_data_size_bits,
-                            instance.flags);
-
-                        this._stringTables.Add(table);
-
-                        List<StringTableItem> list = StringTable.DecodeFromData(
-                            table,
-                            instance.string_data,
-                            instance.num_entries);
-
-                        foreach (StringTableItem item in list)
-                        {
-                            item.ToString();
-                        }
+                        this._stringTables.Add(message);
+                        message.AnalysisMessage(this);
                     });
+        }
+
+        public void UpdateStringTable(int id, List<StringTableItem> list)
+        {
+            SvcCreateStringTable table = this._stringTables[id];
+            UpdateStringTable(table, list);
+        }
+
+        public void UpdateStringTable(string name, List<StringTableItem> list)
+        {
+            SvcCreateStringTable table = this._stringTables[name];
+            UpdateStringTable(table, list);
+        }
+
+        private void UpdateStringTable(SvcCreateStringTable table, List<StringTableItem> list)
+        {
+            foreach (StringTableItem item in list)
+            {
+                if (table.Name == "ActiveModifiers")
+                {
+                    if (item.Value == null)
+                    {
+                        return;
+                    }
+                    CDOTAModifierBuffTableEntry mod = Helper.DeserilizedFromBytes<CDOTAModifierBuffTableEntry>(item.Value.ToByteArray());
+                    this._modifiers.Add(mod);
+                }
+                else
+                {
+                    table.SetValue(item.Index, item.Key, item.Value);
+                }
+            }
         }
     }
 }

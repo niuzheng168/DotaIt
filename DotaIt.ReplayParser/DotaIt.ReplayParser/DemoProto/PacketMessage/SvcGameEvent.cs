@@ -30,7 +30,7 @@
             this._gameEvent = Helper.DeserilizedFromBytes<CSVCMsg_GameEvent>(Message);
         }
 
-        public void AnalysisMessage(Demo demo)
+        public void AnalysisMessage(DemoInfo demo)
         {
             int eventId = this._gameEvent.eventid;
             var desc = demo.GameEventDescriptors[eventId];

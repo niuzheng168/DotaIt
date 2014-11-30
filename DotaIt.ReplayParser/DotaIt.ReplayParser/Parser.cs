@@ -25,7 +25,7 @@
         /// <summary>
         /// The _foreplay.
         /// </summary>
-        private Demo _demo = new Demo();
+        private DemoInfo _demo = new DemoInfo();
 
         /// <summary>
         /// The _fs.
@@ -60,7 +60,7 @@
         /// </summary>
         public string DemoFilePath { get; set; }
 
-        public Demo Demo
+        public DemoInfo Demo
         {
             get
             {

@@ -72,9 +72,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Advanced\DemoCombatLog.cs" />
-    <Compile Include="Class\BitStream.cs" />
-    <Compile Include="DemoHelper.cs" />
+    <Compile Include="Advanced\CombatLog\DemoCombatLogBase.cs" />
+    <Compile Include="Advanced\CombatLog\DemoCombatLogHelper.cs" />
+    <Compile Include="Advanced\CombatLog\AbandonedCombatLogBase.cs" />
+    <Compile Include="BitStream.cs" />
+    <Compile Include="ByteString.cs" />
+    <Compile Include="Demo\DemoHelper.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageClassInfo.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageFileHeader.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageFileInfo.cs" />
@@ -86,8 +89,9 @@
     <Compile Include="DemoProto\DemoMessages\DemoMessageSignonPacket.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageStringTables.cs" />
     <Compile Include="DemoProto\ProtoDef\DotaModifier.cs" />
-    <Compile Include="DemoReader.cs" />
-    <Compile Include="Demo.cs" />
+    <Compile Include="Demo\DemoReader.cs" />
+    <Compile Include="Demo\DemoInfo.cs" />
+    <Compile Include="Demo\DotaMofifierDic.cs" />
     <Compile Include="GameEvent.cs" />
     <Compile Include="DemoProto\MessageBase.cs" />
     <Compile Include="DemoProto\IPacked.cs" />
@@ -116,9 +120,9 @@
     <Compile Include="DemoProto\ProtoDef\NetMessagesProtos.cs" />
     <Compile Include="DemoProto\ProtoDef\UserMessagesProtos.cs" />
     <Compile Include="DemoProto\UserMessage.cs" />
-    <Compile Include="GameEventDescriptorDic.cs" />
+    <Compile Include="Demo\GameEventDescriptorDic.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="IAnalysable.cs" />
+    <Compile Include="DemoProto\IAnalysable.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ReplayInfo\Combat\Action\Ability.cs" />
@@ -137,6 +141,7 @@
     <Compile Include="ReplayInfo\Player.cs" />
     <Compile Include="ReplayInfo\Chat\PlayerChatLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Demo\StringTableDic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

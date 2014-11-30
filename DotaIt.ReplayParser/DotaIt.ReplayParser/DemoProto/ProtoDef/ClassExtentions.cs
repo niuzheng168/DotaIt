@@ -2,7 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using System.Linq.Expressions;
+    using System.Text;
+
+    using DotaIt.ReplayParser.Class;
+    using DotaIt.ReplayParser.DemoProto.PacketMessage;
 
     using ProtoBuf;
 
@@ -93,5 +99,16 @@
         DataTable = 6,
 
         Int64 = 7
+    }
+
+    public enum CombatLogGameState
+    {
+        Error = 0,
+        Waiting_For_Loaders = 1,
+        Picking = 2,
+        Start = 3,
+        PreGame = 4,
+        Playing = 5,
+        PostGame = 6,
     }
 }

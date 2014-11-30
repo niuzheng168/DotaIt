@@ -29,15 +29,8 @@ namespace DotaIt.ReplayParser
         {
             Parser parser = new Parser(@"D:\1016671075.dem");
 
-            string header = parser.GetDemoHeader();
-            Console.WriteLine(header);
-
             parser.Parse();
             DemoHelper.ExtractCombatLogs(parser.Demo);
-
-
-            var fileInfo = parser.DirectlyReadFileInfo();
-            Console.WriteLine(JsonConvert.SerializeObject(fileInfo));
         }
     }
 }

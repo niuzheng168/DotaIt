@@ -1,5 +1,7 @@
 ﻿namespace DotaIt.ReplayParser
 {
+    using System;
+
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>
@@ -25,8 +27,15 @@
 
         public T GetEventProperty<T>(int idx)
         {
-            T prop = (T)this.State[idx];
-            return prop;
+            try
+            {
+                T prop = (T)this.State[idx];
+                return prop;
+            }
+            catch
+            {
+                return default(T);
+            }
         }
     }
 }

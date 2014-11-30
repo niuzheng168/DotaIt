@@ -7,6 +7,6 @@
     /// </summary>
     internal interface IAnalysable
     {
-        void AnalysisMessage(Demo demo);
+        void AnalysisMessage(DemoInfo demo);
     }
 }
