@@ -1,4 +1,4 @@
-﻿namespace DotaIt.ReplayParser
+﻿namespace DotaIt.ReplayParser.Utility
 {
     using System;
     using System.Collections;
@@ -41,17 +41,17 @@
         /// </summary>
         public int Length
         {
-            get { return bytes.Length; }
+            get { return this.bytes.Length; }
         }
 
         public bool IsEmpty
         {
-            get { return Length == 0; }
+            get { return this.Length == 0; }
         }
 
         public byte[] ToByteArray()
         {
-            return (byte[])bytes.Clone();
+            return (byte[])this.bytes.Clone();
         }
 
         /// <summary>
@@ -104,27 +104,27 @@
         /// </summary>
         public byte this[int index]
         {
-            get { return bytes[index]; }
+            get { return this.bytes[index]; }
         }
 
         public string ToString(Encoding encoding)
         {
-            return encoding.GetString(bytes, 0, bytes.Length);
+            return encoding.GetString(this.bytes, 0, this.bytes.Length);
         }
 
         public string ToStringUtf8()
         {
-            return ToString(Encoding.UTF8);
+            return this.ToString(Encoding.UTF8);
         }
 
         public IEnumerator<byte> GetEnumerator()
         {
-            return ((IEnumerable<byte>)bytes).GetEnumerator();
+            return ((IEnumerable<byte>)this.bytes).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
 
@@ -135,13 +135,13 @@
             {
                 return false;
             }
-            return Equals(other);
+            return this.Equals(other);
         }
 
         public override int GetHashCode()
         {
             int ret = 23;
-            foreach (byte b in bytes)
+            foreach (byte b in this.bytes)
             {
                 ret = (ret << 8) | b;
             }
@@ -150,13 +150,13 @@
 
         public bool Equals(ByteString other)
         {
-            if (other.bytes.Length != bytes.Length)
+            if (other.bytes.Length != this.bytes.Length)
             {
                 return false;
             }
-            for (int i = 0; i < bytes.Length; i++)
+            for (int i = 0; i < this.bytes.Length; i++)
             {
-                if (other.bytes[i] != bytes[i])
+                if (other.bytes[i] != this.bytes[i])
                 {
                     return false;
                 }
@@ -169,7 +169,7 @@
         /// </summary>
         public void CopyTo(Array array, int position)
         {
-            Array.Copy(bytes, 0, array, position, bytes.Length);
+            Array.Copy(this.bytes, 0, array, position, this.bytes.Length);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@
         /// </summary>
         public void WriteTo(System.IO.Stream outputStream)
         {
-            outputStream.Write(bytes, 0, bytes.Length);
+            outputStream.Write(this.bytes, 0, this.bytes.Length);
         }
     }
 }

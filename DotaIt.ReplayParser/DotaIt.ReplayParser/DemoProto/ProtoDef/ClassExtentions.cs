@@ -7,7 +7,6 @@
     using System.Linq.Expressions;
     using System.Text;
 
-    using DotaIt.ReplayParser.Class;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
 
     using ProtoBuf;

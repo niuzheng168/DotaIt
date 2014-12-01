@@ -6,6 +6,7 @@
 
     using DotaIt.ReplayParser.Advanced.CombatLog;
     using DotaIt.ReplayParser.Demo;
+    using DotaIt.ReplayParser.Demo.CombatLog;
     using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;

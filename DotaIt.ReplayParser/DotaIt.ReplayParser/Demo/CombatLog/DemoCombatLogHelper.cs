@@ -1,7 +1,8 @@
-﻿namespace DotaIt.ReplayParser.Advanced.CombatLog
+﻿namespace DotaIt.ReplayParser.Demo.CombatLog
 {
     using System.Diagnostics;
 
+    using DotaIt.ReplayParser.Advanced.CombatLog;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 

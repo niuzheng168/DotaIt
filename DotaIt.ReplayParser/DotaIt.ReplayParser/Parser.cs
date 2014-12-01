@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
 
+    using DotaIt.ReplayParser.Demo;
     using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
 

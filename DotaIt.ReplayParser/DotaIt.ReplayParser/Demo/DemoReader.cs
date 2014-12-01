@@ -1,4 +1,4 @@
-﻿namespace DotaIt.ReplayParser
+﻿namespace DotaIt.ReplayParser.Demo
 {
     using System;
     using System.IO;

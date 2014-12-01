@@ -1,4 +1,4 @@
-﻿namespace DotaIt.ReplayParser
+﻿namespace DotaIt.ReplayParser.Demo
 {
     using System.Collections.Generic;
 
@@ -30,7 +30,7 @@
         {
             get
             {
-                return _byId[id];
+                return this._byId[id];
             }
         }
 
@@ -38,7 +38,7 @@
         {
             get
             {
-                return _byName[name];
+                return this._byName[name];
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace DotaIt.ReplayParser.Class
+﻿namespace DotaIt.ReplayParser.Utility
 {
     using System;
     using System.Collections.Generic;
@@ -7,29 +7,29 @@
     using System.Text;
 
     /// <summary>
-    /// The bit stream reader.
+    ///     The bit stream reader.
     /// </summary>
     internal class BitStreamReader
     {
         #region Constants
 
         /// <summary>
-        /// The bit count per byte.
+        ///     The bit count per byte.
         /// </summary>
         public const uint BitCountPerByte = 8;
 
         /// <summary>
-        /// The bit count per int.
+        ///     The bit count per int.
         /// </summary>
         public const uint BitCountPerInt = 32;
 
         /// <summary>
-        /// The bit count per long.
+        ///     The bit count per long.
         /// </summary>
         public const uint BitCountPerLong = 64;
 
         /// <summary>
-        /// The bit count per short.
+        ///     The bit count per short.
         /// </summary>
         public const uint BitCountPerShort = 16;
 
@@ -38,27 +38,27 @@
         #region Fields
 
         /// <summary>
-        /// The _buffer length in bits.
+        ///     The _buffer length in bits.
         /// </summary>
         private uint _bufferLengthInBits;
 
         /// <summary>
-        /// The _byte array.
+        ///     The _byte array.
         /// </summary>
         private byte[] _byteArray;
 
         /// <summary>
-        /// The _byte array index.
+        ///     The _byte array index.
         /// </summary>
         private int _byteArrayIndex;
 
         /// <summary>
-        /// The _cbits in partial byte.
+        ///     The _cbits in partial byte.
         /// </summary>
         private int _cbitsInPartialByte;
 
         /// <summary>
-        /// The _partial byte.
+        ///     The _partial byte.
         /// </summary>
         private byte _partialByte;
 
@@ -67,8 +67,8 @@
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BitStreamReader"/> class. 
-        /// Create a new BitStreamReader to unpack the bits in a buffer of bytes
+        /// Initializes a new instance of the <see cref="BitStreamReader"/> class.
+        ///     Create a new BitStreamReader to unpack the bits in a buffer of bytes
         /// </summary>
         /// <param name="buffer">
         /// Buffer of bytes
@@ -79,11 +79,6 @@
 
             this._byteArray = buffer;
             this._bufferLengthInBits = (uint)buffer.Length * BitCountPerByte;
-
-            for (int i = 0; i < _byteArray.Length; i++)
-            {
-                //_byteArray[i] = this.Reverse(_byteArray[i]);
-            }
         }
 
         /// <summary>
@@ -147,31 +142,15 @@
         #region Methods
 
         /// <summary>
-        /// Reads a single bit from the buffer
+        ///     Reads a single bit from the buffer
         /// </summary>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
         internal bool ReadBit()
         {
             byte b = this.ReadByte(1);
-            return ((b & 1) == 1);
-        }
-
-        internal string ReadString(int countOfBits)
-        {
-            StringBuilder sb = new StringBuilder();
-            while (countOfBits > 0)
-            {
-                char c = (char)this.ReadByte(8);
-                if (c == 0)
-                {
-                    break;
-                }
-                sb.Append(c);
-                countOfBits--;
-            }
-            return sb.ToString();
+            return (b & 1) == 1;
         }
 
         /// <summary>
@@ -219,8 +198,9 @@
                 returnByte = (byte)(this._partialByte & mask);
 
                 // reposition any unused portion of the cache in the most significant part of the bit cache
-                unchecked // disable overflow checking since we are intentionally throwing away
+                unchecked
                 {
+                    // disable overflow checking since we are intentionally throwing away
                     //   the significant bits
                     this._partialByte >>= countOfBits;
                 }
@@ -236,10 +216,10 @@
                 byte nextByte = this._byteArray[this._byteArrayIndex];
                 this._byteArrayIndex++;
 
-                int remainingBitsCount = countOfBits - _cbitsInPartialByte;
+                int remainingBitsCount = countOfBits - this._cbitsInPartialByte;
                 int mask = (1 << remainingBitsCount) - 1;
                 byte newByteValue = (byte)(nextByte & mask);
-                returnByte = (byte)((newByteValue << _cbitsInPartialByte) | _partialByte);
+                returnByte = (byte)((newByteValue << this._cbitsInPartialByte) | this._partialByte);
 
                 this._cbitsInPartialByte = (int)BitCountPerByte - remainingBitsCount;
 
@@ -250,6 +230,99 @@
             }
 
             return returnByte;
+        }
+
+        /// <summary>
+        /// The read bytes.
+        /// </summary>
+        /// <param name="countOfBits">
+        /// The count of bits.
+        /// </param>
+        /// <returns>
+        /// The byte array.
+        /// </returns>
+        internal byte[] ReadBytes(int countOfBits)
+        {
+            List<byte> result = new List<byte>();
+            while (countOfBits > 0)
+            {
+                int countToRead = (int)BitCountPerByte;
+                if (countOfBits < 8)
+                {
+                    countToRead = countOfBits;
+                }
+
+                byte b = this.ReadByte(countToRead);
+                result.Add(b);
+                countOfBits -= countToRead;
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// The read int 32.
+        /// </summary>
+        /// <param name="countOfBits">
+        /// The count of bits.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
+        internal int ReadInt32(int countOfBits)
+        {
+            // we only support 1-8 bits currently, not multiple bytes, and not 0 bits
+            if (countOfBits > BitCountPerInt || countOfBits <= 0)
+            {
+                throw new ArgumentOutOfRangeException("countOfBits");
+            }
+
+            int retVal = 0;
+            int curBit = 0;
+            while (countOfBits > 0)
+            {
+                int countToRead = (int)BitCountPerByte;
+                if (countOfBits < 8)
+                {
+                    countToRead = countOfBits;
+                }
+
+                byte b = this.ReadByte(countToRead);
+                retVal = (b << curBit) | retVal;
+                curBit += 8;
+                countOfBits -= countToRead;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// The read string.
+        /// </summary>
+        /// <param name="countOfBits">
+        /// The count of bits.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        internal string ReadString(int countOfBits)
+        {
+            StringBuilder sb = new StringBuilder();
+            while (countOfBits > 0)
+            {
+                char c = (char)this.ReadByte(8);
+                if (c == 0)
+                {
+                    break;
+                }
+
+                sb.Append(c);
+                countOfBits--;
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -319,7 +392,7 @@
 
                 // make room
                 ushort b = this.ReadByte(countToRead);
-                b <<= (fullBytesRead * (int)BitCountPerByte);
+                b <<= fullBytesRead * (int)BitCountPerByte;
                 retVal |= b;
                 fullBytesRead++;
                 countOfBits -= countToRead;
@@ -364,52 +437,6 @@
             return retVal;
         }
 
-        internal int ReadInt32(int countOfBits)
-        {
-            // we only support 1-8 bits currently, not multiple bytes, and not 0 bits
-            if (countOfBits > BitCountPerInt || countOfBits <= 0)
-            {
-                throw new ArgumentOutOfRangeException("countOfBits");
-            }
-
-            int retVal = 0;
-            int curBit = 0;
-            while (countOfBits > 0)
-            {
-                int countToRead = (int)BitCountPerByte;
-                if (countOfBits < 8)
-                {
-                    countToRead = countOfBits;
-                }
-
-                byte b = this.ReadByte(countToRead);
-                retVal = (b << curBit) | retVal;
-                curBit += 8;
-                countOfBits -= countToRead;
-            }
-
-            return retVal;
-        }
-
-        internal byte[] ReadBytes(int countOfBits)
-        {
-            List<byte> result = new List<byte>();
-            while (countOfBits > 0)
-            {
-                int countToRead = (int)BitCountPerByte;
-                if (countOfBits < 8)
-                {
-                    countToRead = countOfBits;
-                }
-
-                byte b = this.ReadByte(countToRead);
-                result.Add(b);
-                countOfBits -= countToRead;
-            }
-
-            return result.ToArray();
-        }
-
         /// <summary>
         /// Read a specified number of bits from the stream in reverse byte order
         /// </summary>
@@ -439,7 +466,7 @@
 
                 // make room
                 uint b = this.ReadByte(countToRead);
-                b <<= (fullBytesRead * (int)BitCountPerByte);
+                b <<= fullBytesRead * (int)BitCountPerByte;
                 retVal |= b;
                 fullBytesRead++;
                 countOfBits -= countToRead;
@@ -482,15 +509,6 @@
             }
 
             return retVal;
-        }
-
-        private byte Reverse(byte b)
-        {
-            int r = ((b & 0x55) << 1) | ((b & 0xAA) >> 1);
-            r = ((r & 0x33) << 2) | ((r & 0xCC) >> 2);
-            r = ((r & 0x0F) << 4) | ((r & 0xF0) >> 4);
-
-            return (byte)r;
         }
 
         #endregion

@@ -5,7 +5,7 @@
     /// <summary>
     /// The net set con var.
     /// </summary>
-    public class SvcUserMessage : PacketMessageBase
+    public class SvcUserMessage : PacketMessageBase, IAnalysable
     {
         public SvcUserMessage(int kindValue, byte[] message, int tick)
             : base(kindValue, message, tick)
@@ -26,6 +26,12 @@
         {
             base.BuildMessageInstance();
             _setConVar = Helper.DeserilizedFromBytes<CSVCMsg_UserMessage>(Message);
+        }
+
+        public void AnalysisMessage(DemoInfo demo)
+        {
+            this.BuildMessageInstance();
+
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System.Text;
 
+    using DotaIt.ReplayParser.Demo.CombatLog;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     using Newtonsoft.Json;
@@ -137,7 +138,6 @@
         public bool IsTargetHero { get; set; }
 
         public int AbilityLevel { get; set; }
-
 
         public override void Parse(GameEvent combatEvent, DemoCombatLogHelper helper)
         {

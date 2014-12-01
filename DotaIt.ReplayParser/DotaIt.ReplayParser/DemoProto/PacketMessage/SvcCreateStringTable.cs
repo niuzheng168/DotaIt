@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Text;
 
-    using DotaIt.ReplayParser.Class;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
+    using DotaIt.ReplayParser.Utility;
 
     /// <summary>
     ///     The net set con var.
