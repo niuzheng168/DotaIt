@@ -74,7 +74,6 @@
   <ItemGroup>
     <Compile Include="Demo\CombatLog\DemoCombatLogBase.cs" />
     <Compile Include="Demo\CombatLog\DemoCombatLogHelper.cs" />
-    <Compile Include="Demo\CombatLog\AbandonedCombatLogBase.cs" />
     <Compile Include="BitStream.cs" />
     <Compile Include="ByteString.cs" />
     <Compile Include="Demo\DemoHelper.cs" />

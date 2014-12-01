@@ -13,8 +13,6 @@ namespace DotaIt.ReplayParser
     using System.IO;
     using System.Text;
 
-    using DotaIt.ReplayParser.Advanced.CombatLog;
-
     using Newtonsoft.Json;
 
     /// <summary>

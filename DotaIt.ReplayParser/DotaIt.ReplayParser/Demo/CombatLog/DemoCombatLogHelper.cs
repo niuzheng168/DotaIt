@@ -74,37 +74,6 @@
             return this.CombatLogTable.Names[id];
         }
 
-        public AbandonedCombatLogBase Generate(GameEvent combatEvent)
-        {
-            AbandonedCombatLogBase logBase = new AbandonedCombatLogBase();
-
-            logBase.CombatLogType = (DOTA_COMBATLOG_TYPES)combatEvent.GetEventProperty<int>(this.TypeIdx);
-            logBase.SourceNameId = combatEvent.GetEventProperty<int>(this.SourceNameIdx);
-            logBase.TargetNameId = combatEvent.GetEventProperty<int>(this.TargetNameIdx);
-            logBase.AttackerNameId = combatEvent.GetEventProperty<int>(this.AttackerNameIdx);
-            logBase.InflictorNameId = combatEvent.GetEventProperty<int>(this.InflictorNameIdx);
-            logBase.IsAttacterIllusion = combatEvent.GetEventProperty<bool>(this.AttackerIllusionIdx);
-            logBase.IsTargetIllusion = combatEvent.GetEventProperty<bool>(this.TargetIllusionIdx);
-            logBase.Value = combatEvent.GetEventProperty<int>(this.ValueIdx);
-            logBase.Health = combatEvent.GetEventProperty<int>(this.HealthIdx);
-            logBase.Time = combatEvent.GetEventProperty<float>(this.TimestampIdx);
-            logBase.TargetSourceNameId = combatEvent.GetEventProperty<int>(this.TargetSourceNameIdx);
-            logBase.IsAttackerHero = combatEvent.GetEventProperty<bool>(this.AttackerHeroIdx);
-            logBase.IsTargetHero = combatEvent.GetEventProperty<bool>(this.TargetHeroIdx);
-            logBase.IsAbilityToggleOn = combatEvent.GetEventProperty<bool>(this.AbilityToggleOnIdx);
-            logBase.IsAbilityToggleOff = combatEvent.GetEventProperty<bool>(this.AbilityToggleOffIdx);
-            logBase.AbilityLevel = combatEvent.GetEventProperty<int>(this.AbilityLevelIdx);
-            logBase.GoldReason = combatEvent.GetEventProperty<int>(this.GoldReasonIdx);
-
-            logBase.SourceName = this.ConvertIdToString(logBase.SourceNameId);
-            logBase.TargetName = this.ConvertIdToString(logBase.TargetNameId);
-            logBase.AttackerName = this.ConvertIdToString(logBase.AttackerNameId);
-            logBase.InflictorName = this.ConvertIdToString(logBase.InflictorNameId);
-            logBase.TargetSourceName = this.ConvertIdToString(logBase.TargetSourceNameId);
-
-            return logBase;
-        }
-
         public DemoCombatLogBase CreateCombatLog(GameEvent combatEvent)
         {
             return CreateCombatLog(combatEvent, this);
