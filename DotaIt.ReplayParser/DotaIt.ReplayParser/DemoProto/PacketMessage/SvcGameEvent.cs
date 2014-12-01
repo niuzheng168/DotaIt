@@ -32,6 +32,8 @@
 
         public void AnalysisMessage(DemoInfo demo)
         {
+            this.BuildMessageInstance();
+
             int eventId = this._gameEvent.eventid;
             var desc = demo.GameEventDescriptors[eventId];
             GameEvent gameEvent = new GameEvent(eventId, desc, _tick);

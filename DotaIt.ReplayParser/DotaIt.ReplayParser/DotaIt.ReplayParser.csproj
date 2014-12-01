@@ -72,9 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Advanced\CombatLog\DemoCombatLogBase.cs" />
-    <Compile Include="Advanced\CombatLog\DemoCombatLogHelper.cs" />
-    <Compile Include="Advanced\CombatLog\AbandonedCombatLogBase.cs" />
+    <Compile Include="Demo\CombatLog\DemoCombatLogBase.cs" />
+    <Compile Include="Demo\CombatLog\DemoCombatLogHelper.cs" />
+    <Compile Include="Demo\CombatLog\AbandonedCombatLogBase.cs" />
     <Compile Include="BitStream.cs" />
     <Compile Include="ByteString.cs" />
     <Compile Include="Demo\DemoHelper.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="DemoProto\PacketMessage\PacketMessageBase.cs" />
     <Compile Include="DemoProto\PacketMessage\PacketMessageFactory.cs" />
     <Compile Include="DemoProto\PacketMessage\SvcClassInfo.cs" />
-    <Compile Include="DemoProto\PacketMessage\SvcCreatStringTable.cs" />
+    <Compile Include="DemoProto\PacketMessage\SvcCreateStringTable.cs" />
     <Compile Include="DemoProto\PacketMessage\SvcGameEvent.cs" />
     <Compile Include="DemoProto\PacketMessage\SvcGameEventList.cs" />
     <Compile Include="DemoProto\PacketMessage\SvcMenu.cs" />

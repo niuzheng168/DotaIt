@@ -7,7 +7,7 @@
     /// <summary>
     ///     The demo message file header.
     /// </summary>
-    public class DemoMessageFileHeader : DemoMessageBase
+    public class DemoMessageFileHeader : DemoMessageBase, IAnalysable
     {
         #region Fields
 
@@ -51,10 +51,13 @@
         public override void BuildMessageInstance()
         {
             base.BuildMessageInstance();
-            using (MemoryStream ms = new MemoryStream(this.Message))
-            {
-                this._header = Serializer.Deserialize<DemoMessageFileHeaderProto>(ms);
-            }
+            this._header = Helper.DeserilizedFromBytes<DemoMessageFileHeaderProto>(Message);
+        }
+
+        public void AnalysisMessage(DemoInfo demo)
+        {
+            this.BuildMessageInstance();
+            demo.FileHeader = this;
         }
 
         #endregion

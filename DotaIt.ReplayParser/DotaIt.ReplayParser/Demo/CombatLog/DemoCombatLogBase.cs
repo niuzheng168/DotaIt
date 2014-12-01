@@ -19,6 +19,10 @@
         [JsonProperty(Order = -10)]
         public float Time { get; set; }
 
+        public const string CombatLog_Descriptor_Name = "dota_combatlog";
+
+        public const string CombatLog_StringTable_Name = "CombatLogNames";
+
         public abstract void Parse(GameEvent combatEvent, DemoCombatLogHelper helper);
 
         public override string ToString()

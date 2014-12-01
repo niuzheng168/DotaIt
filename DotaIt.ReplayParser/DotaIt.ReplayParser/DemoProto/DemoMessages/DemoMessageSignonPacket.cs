@@ -47,8 +47,9 @@
             _packetInfo = Helper.DeserilizedFromBytes<DemoMessagePacketProto>(Message);
         }
 
-        public void Unpack(bool autoDeserilizedPackets)
+        public void Unpack()
         {
+            this.BuildMessageInstance();
             using (MemoryStream ms = new MemoryStream(this.MessageInstance.Data))
             {
                 while (ms.Position < ms.Length)
@@ -57,13 +58,10 @@
                     int size = ProtoReader.DirectReadVarintInt32(ms);
                     byte[] buffer = new byte[size];
                     ms.Read(buffer, 0, size);
+
                     PacketMessageBase m = PacketMessageFactory.CreatePacketMessage(kindValue, buffer, _tick);
                     if (m != null)
                     {
-                        if (autoDeserilizedPackets)
-                        {
-                            m.BuildMessageInstance();
-                        }
                         _unpackedMessageList.Add(m);
                     }
                 }

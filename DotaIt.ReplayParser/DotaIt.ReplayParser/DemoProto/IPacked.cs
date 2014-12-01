@@ -24,7 +24,7 @@
         /// <summary>
         /// The unpack.
         /// </summary>
-        void Unpack(bool autoDeserilizedPackets);
+        void Unpack();
 
         #endregion
     }

@@ -30,6 +30,8 @@
 
         public void AnalysisMessage(DemoInfo demo)
         {
+            this.BuildMessageInstance();
+
             int id = this.MessageInstance.table_id;
             SvcCreateStringTable table = demo.StringTables[id];
             var list = SvcCreateStringTable.DecodeFromData(

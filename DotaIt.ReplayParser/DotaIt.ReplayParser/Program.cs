@@ -11,6 +11,9 @@ namespace DotaIt.ReplayParser
 {
     using System;
     using System.IO;
+    using System.Text;
+
+    using DotaIt.ReplayParser.Advanced.CombatLog;
 
     using Newtonsoft.Json;
 
@@ -19,6 +22,8 @@ namespace DotaIt.ReplayParser
     /// </summary>
     public class Program
     {
+        private static StreamWriter sw = new StreamWriter(@"d:\combatlog.json", true, Encoding.Unicode);
+
         /// <summary>
         /// The main.
         /// </summary>
@@ -29,11 +34,22 @@ namespace DotaIt.ReplayParser
         {
             DateTime t1 = DateTime.Now;
             Parser parser = new Parser(@"D:\1016671075.dem");
+
+            parser.Demo.OnCombatLog += Demo_OnCombatLog;
             parser.Parse();
             DateTime t2 = DateTime.Now;
             int ms = (t2 - t1).Milliseconds;
             Console.WriteLine("Total Ms: {0}", ms);
-            DemoHelper.ExtractCombatLogs(parser.Demo);
+
+            sw.Close();
+        }
+
+        private static void Demo_OnCombatLog(object sender, CombatLogEventArgs args)
+        {
+            sw.WriteLine(
+                JsonConvert.SerializeObject(
+                    args.CombatLog,
+                    new JsonSerializerSettings() { Formatting = Formatting.Indented }));
         }
     }
 }

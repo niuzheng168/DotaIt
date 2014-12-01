@@ -72,6 +72,7 @@
                 }
 
                 nameBuf.Clear();
+
                 // read key
                 if (stream.ReadBit())
                 {
@@ -187,6 +188,8 @@
 
         public void AnalysisMessage(DemoInfo demo)
         {
+            this.BuildMessageInstance();
+            demo.StringTables.Add(this);
             var list = DecodeFromData(this, this._stringTable.string_data, this.MessageInstance.num_entries);
             demo.UpdateStringTable(this.Name, list);
         }

@@ -1,117 +1,90 @@
 ﻿namespace DotaIt.ReplayParser
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using DotaIt.ReplayParser.Advanced.CombatLog;
     using DotaIt.ReplayParser.Demo;
     using DotaIt.ReplayParser.DemoProto;
-    using DotaIt.ReplayParser.DemoProto.DemoMessages;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>
-    /// The foreplay.
+    ///     The foreplay.
     /// </summary>
     public class DemoInfo
     {
-        private List<DemoMessageBase> _demoMessageList = new List<DemoMessageBase>();
+        public event CombatLogEventHandler OnCombatLog;
 
-        public List<DemoMessageBase> DemoMessageList
-        {
-            get
-            {
-                return this._demoMessageList;
-            }
-        }
+        #region Fields
 
-        private DemoMessageFileHeader _fileHeader;
-
-        public DemoMessageFileHeader FileHeader
-        {
-            get
-            {
-                return this._fileHeader;
-            }
-        }
-
-        private List<DemoMessageSignonPacket> _signonPacketMessageList = new List<DemoMessageSignonPacket>();
-
-        private List<PacketMessageBase> _packets = new List<PacketMessageBase>();
-
-        public List<PacketMessageBase> Packets
-        {
-            get
-            {
-                return this._packets;
-            }
-        }
-
-        private GameEventDescriptorDic _gameEventDescriptors = new GameEventDescriptorDic();
-
-        public GameEventDescriptorDic GameEventDescriptors
-        {
-            get
-            {
-                return this._gameEventDescriptors;
-            }
-        }
-
-        private StringTableDic _stringTables = new StringTableDic();
-
-        public StringTableDic StringTables
-        {
-            get
-            {
-                return this._stringTables;
-            }
-        }
-
-        private DotaMofifierDic _modifiers = new DotaMofifierDic();
-
-        public DotaMofifierDic Modifiers
-        {
-            get
-            {
-                return this._modifiers;
-            }
-        }
-
-        private SvcServerInfo _serverInfo;
-
-        public SvcServerInfo ServerInfo
-        {
-            get
-            {
-                return this._serverInfo;
-            }
-        }
-
-        private SvcVoiceInit _voiceInit;
-
-        public SvcVoiceInit VoiceInit
-        {
-            get
-            {
-                return this._voiceInit;
-            }
-        }
-
-        private List<DemoMessageSendTable> _sendTablesMessageList = new List<DemoMessageSendTable>();
-
-        private Dictionary<string, SvcSendTable> _sendTables = new Dictionary<string, SvcSendTable>();
-
-        public Dictionary<string, SvcSendTable> SendTables
-        {
-            get
-            {
-                return this._sendTables;
-            }
-        }
-
-        private List<DemoMessageClassInfo> _classInfoMessageList = new List<DemoMessageClassInfo>();
-
+        /// <summary>
+        /// The _class info.
+        /// </summary>
         private Dictionary<int, CDemoClassInfo.class_t> _classInfo = new Dictionary<int, CDemoClassInfo.class_t>();
 
+        /// <summary>
+        /// The _class info message list.
+        /// </summary>
+        private List<DemoMessageClassInfo> _classInfoMessageList = new List<DemoMessageClassInfo>();
+
+        /// <summary>
+        /// The _demo message list.
+        /// </summary>
+        private List<DemoMessageBase> _demoMessageList = new List<DemoMessageBase>();
+
+        /// <summary>
+        /// The _file header.
+        /// </summary>
+        private DemoMessageFileHeader _fileHeader;
+
+        /// <summary>
+        /// The _game event descriptors.
+        /// </summary>
+        private GameEventDescriptorDic _gameEventDescriptors = new GameEventDescriptorDic();
+
+        /// <summary>
+        /// The _game events.
+        /// </summary>
+        private List<GameEvent> _gameEvents = new List<GameEvent>();
+
+        /// <summary>
+        /// The _modifiers.
+        /// </summary>
+        private DotaMofifierDic _modifiers = new DotaMofifierDic();
+
+        /// <summary>
+        /// The _packets.
+        /// </summary>
+        private List<PacketMessageBase> _packets = new List<PacketMessageBase>();
+
+        /// <summary>
+        /// The _server info.
+        /// </summary>
+        private SvcServerInfo _serverInfo;
+
+        /// <summary>
+        /// The _string tables.
+        /// </summary>
+        private StringTableDic _stringTables = new StringTableDic();
+
+        /// <summary>
+        /// The _voice init.
+        /// </summary>
+        private SvcVoiceInit _voiceInit;
+
+        private DemoCombatLogHelper _combatLogHelper = null;
+
+        private int _processedGameEventCount = 0;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the class info.
+        /// </summary>
         public Dictionary<int, CDemoClassInfo.class_t> ClassInfo
         {
             get
@@ -120,18 +93,46 @@
             }
         }
 
-        private Dictionary<int, ReciveTable> _reciveTables = new Dictionary<int, ReciveTable>();
-
-        public Dictionary<int, ReciveTable> ReciveTables
+        /// <summary>
+        /// Gets the demo message list.
+        /// </summary>
+        public List<DemoMessageBase> DemoMessageList
         {
             get
             {
-                return this._reciveTables;
+                return this._demoMessageList;
             }
         }
 
-        private List<GameEvent> _gameEvents = new List<GameEvent>();
+        /// <summary>
+        /// Gets the file header.
+        /// </summary>
+        public DemoMessageFileHeader FileHeader
+        {
+            get
+            {
+                return this._fileHeader;
+            }
+            set
+            {
+                this._fileHeader = value;
+            }
+        }
 
+        /// <summary>
+        /// Gets the game event descriptors.
+        /// </summary>
+        public GameEventDescriptorDic GameEventDescriptors
+        {
+            get
+            {
+                return this._gameEventDescriptors;
+            }
+        }
+
+        /// <summary>
+        /// Gets the game events.
+        /// </summary>
         public List<GameEvent> GameEvents
         {
             get
@@ -140,18 +141,140 @@
             }
         }
 
-        public void Initialize()
+        /// <summary>
+        /// Gets the modifiers.
+        /// </summary>
+        public DotaMofifierDic Modifiers
         {
-            this._fileHeader =
-                this._demoMessageList.FirstOrDefault(x => x.Kind == DemoCommandKind.DEM_FileHeader) as
-                DemoMessageFileHeader;
-
-            this.ProcessSignonPackets();
-            this.ProcessSendTables();
-            this.ProcessClassInfo();
-            this.ProcessStringTables();
+            get
+            {
+                return this._modifiers;
+            }
         }
 
+        /// <summary>
+        /// Gets the packets.
+        /// </summary>
+        public List<PacketMessageBase> Packets
+        {
+            get
+            {
+                return this._packets;
+            }
+        }
+
+        /// <summary>
+        /// Gets the server info.
+        /// </summary>
+        public SvcServerInfo ServerInfo
+        {
+            get
+            {
+                return this._serverInfo;
+            }
+        }
+
+        /// <summary>
+        /// Gets the string tables.
+        /// </summary>
+        public StringTableDic StringTables
+        {
+            get
+            {
+                return this._stringTables;
+            }
+        }
+
+        /// <summary>
+        /// Gets the voice init.
+        /// </summary>
+        public SvcVoiceInit VoiceInit
+        {
+            get
+            {
+                return this._voiceInit;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The initialize.
+        /// </summary>
+        public void Initialize()
+        {
+
+        }
+
+        /// <summary>
+        /// The update string table.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="list">
+        /// The list.
+        /// </param>
+        public void UpdateStringTable(int id, List<StringTableItem> list)
+        {
+            SvcCreateStringTable table = this._stringTables[id];
+            UpdateStringTable(table, list);
+        }
+
+        /// <summary>
+        /// The update string table.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="list">
+        /// The list.
+        /// </param>
+        public void UpdateStringTable(string name, List<StringTableItem> list)
+        {
+            SvcCreateStringTable table = this._stringTables[name];
+            UpdateStringTable(table, list);
+        }
+
+        public void PublishCurrentData()
+        {
+            for (; _processedGameEventCount < this._gameEvents.Count; _processedGameEventCount++)
+            {
+                GameEvent gameEvent = _gameEvents[_processedGameEventCount];
+                string eventName = this._gameEventDescriptors[gameEvent.EventId].name;
+                switch (eventName)
+                {
+                    case DemoCombatLogBase.CombatLog_Descriptor_Name:
+                        if (OnCombatLog != null)
+                        {
+                            EnsureCombatLogHelperExist();
+                            DemoCombatLogBase combatLog = _combatLogHelper.CreateCombatLog(gameEvent);
+                            OnCombatLog(this, new CombatLogEventArgs(combatLog));
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void EnsureCombatLogHelperExist()
+        {
+            if (_combatLogHelper == null)
+            {
+                _combatLogHelper = new DemoCombatLogHelper(
+                    _stringTables[DemoCombatLogBase.CombatLog_StringTable_Name],
+                    _gameEventDescriptors[DemoCombatLogBase.CombatLog_Descriptor_Name]);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The process class info.
+        /// </summary>
         private void ProcessClassInfo()
         {
             this.DemoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_ClassInfo).ToList().ForEach(
@@ -165,89 +288,15 @@
                 x => x.MessageInstance.classes.ForEach(y => this.ClassInfo.Add(y.class_id, y)));
         }
 
-        private void ProcessSignonPackets()
-        {
-            this._demoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_SignonPacket).ToList().ForEach(
-                y =>
-                    {
-                        y.BuildMessageInstance();
-                        this._signonPacketMessageList.Add(y as DemoMessageSignonPacket);
-                    });
-
-            this._signonPacketMessageList.ForEach(
-                x =>
-                    {
-                        x.Unpack(true);
-                        this._packets.AddRange(x.UnpackedMessageList);
-                    });
-
-            foreach (PacketMessageBase messageBase in this._packets.Where(x => x.KindValue == (int)SVC_Messages_Kind.svc_GameEventList))
-            {
-                SvcGameEventList m = messageBase as SvcGameEventList;
-                foreach (var desc in m.MessageInstance.descriptors)
-                {
-                    this._gameEventDescriptors.Add(desc);
-                }
-            }
-
-            this._serverInfo =
-                this._packets.FirstOrDefault(x => x.KindValue == (int)SVC_Messages_Kind.svc_ServerInfo) as
-                SvcServerInfo;
-
-            this._voiceInit = this._packets.FirstOrDefault(x => x.KindValue == (int)SVC_Messages_Kind.svc_VoiceInit) as
-                SvcVoiceInit;
-        }
-
-        private void ProcessSendTables()
-        {
-            this._demoMessageList.Where(x => x.Kind == DemoCommandKind.DEM_SendTables).ToList().ForEach(
-                y =>
-                    {
-                        y.BuildMessageInstance();
-                        this._sendTablesMessageList.Add(y as DemoMessageSendTable);
-                    });
-
-            this._sendTablesMessageList.ForEach(
-                x =>
-                    {
-                        x.Unpack(true);
-                        foreach (PacketMessageBase message in x.UnpackedMessageList)
-                        {
-                            SvcSendTable m = message as SvcSendTable;
-                            if (m.MessageInstance.is_end)
-                            {
-                                break;
-                            }
-
-                            this._sendTables.Add(m.MessageInstance.net_table_name, m);
-                        }
-                    });
-        }
-
-        public void ProcessStringTables()
-        {
-            this.Packets.Where(x => x.KindValue == (int)SVC_Messages_Kind.svc_CreateStringTable).ToList().ForEach(
-                y =>
-                    {
-                        SvcCreateStringTable message = y as SvcCreateStringTable;
-                        message.BuildMessageInstance();
-                        this._stringTables.Add(message);
-                        message.AnalysisMessage(this);
-                    });
-        }
-
-        public void UpdateStringTable(int id, List<StringTableItem> list)
-        {
-            SvcCreateStringTable table = this._stringTables[id];
-            UpdateStringTable(table, list);
-        }
-
-        public void UpdateStringTable(string name, List<StringTableItem> list)
-        {
-            SvcCreateStringTable table = this._stringTables[name];
-            UpdateStringTable(table, list);
-        }
-
+        /// <summary>
+        /// The update string table.
+        /// </summary>
+        /// <param name="table">
+        /// The table.
+        /// </param>
+        /// <param name="list">
+        /// The list.
+        /// </param>
         private void UpdateStringTable(SvcCreateStringTable table, List<StringTableItem> list)
         {
             foreach (StringTableItem item in list)
@@ -258,7 +307,9 @@
                     {
                         return;
                     }
-                    CDOTAModifierBuffTableEntry mod = Helper.DeserilizedFromBytes<CDOTAModifierBuffTableEntry>(item.Value.ToByteArray());
+
+                    CDOTAModifierBuffTableEntry mod =
+                        Helper.DeserilizedFromBytes<CDOTAModifierBuffTableEntry>(item.Value.ToByteArray());
                     this._modifiers.Add(mod);
                 }
                 else
@@ -266,6 +317,20 @@
                     table.SetValue(item.Index, item.Key, item.Value);
                 }
             }
+        }
+
+        #endregion
+    }
+
+    public delegate void CombatLogEventHandler(object sender, CombatLogEventArgs args);
+
+    public class CombatLogEventArgs : EventArgs
+    {
+        public DemoCombatLogBase CombatLog { get; set; }
+
+        public CombatLogEventArgs(DemoCombatLogBase log)
+        {
+            this.CombatLog = log;
         }
     }
 }

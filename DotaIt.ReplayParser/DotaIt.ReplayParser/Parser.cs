@@ -3,18 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Security.Cryptography;
 
     using DotaIt.ReplayParser.DemoProto;
-    using DotaIt.ReplayParser.DemoProto.DemoMessages;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
-    using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>
     ///     The parser.
     /// </summary>
     public class Parser
     {
+        public delegate void GetNewDemoMessageEventHandler(object sender, NewDemoMessageEventArgs args);
+
+        public event GetNewDemoMessageEventHandler OnGetNewDemoMessage;
+
         #region Fields
 
         /// <summary>
@@ -31,6 +32,8 @@
         /// The _fs.
         /// </summary>
         private FileStream _fs;
+
+        private int _curTick = -1;
 
         private List<GameEvent> _gameEvents = new List<GameEvent>();
 
@@ -101,18 +104,48 @@
         /// </summary>
         public void Parse()
         {
+            // Sink to where the replay data start.
             this._demoReader.SetReaderStartPos(12);
-            this.BuildForeplay();
+
+            // This buffer stored all demo message in same tick.
+            // We may need process more than one demo message in same tick.
+            List<DemoMessageBase> _buffer = new List<DemoMessageBase>();
+
             while (this._demoReader.IsEnd)
             {
+                // Read new message.
                 DemoMessageBase message = this._demoReader.ReadDemoMessage();
-                if (message is DemoMessageFullPacket)
+
+                // If new message not belong to current tick
+                // Process current buffer first.
+                if (message.Tick > _curTick)
                 {
-                    
+                    ProcessMessageListInSameTick(_buffer);
+                    _buffer.Clear();
+                    _curTick = message.Tick;
                 }
-                else if (message is DemoMessagePacket)
+
+                // Add current message to buffer.
+                _buffer.Add(message);
+            }
+
+            // Check the remaining buffer.
+            if (_buffer.Count > 0)
+            {
+                ProcessMessageListInSameTick(_buffer);
+            }
+        }
+
+        private void ProcessMessageListInSameTick(List<DemoMessageBase> demoMessageBases)
+        {
+            foreach (DemoMessageBase message in demoMessageBases)
+            {
+                if (message is IAnalysable)
                 {
-                    message.BuildMessageInstance();
+                    ((IAnalysable)message).AnalysisMessage(this._demo);
+                }
+                else if (message is IPacked)
+                {
                     this.ProcessPackedDemoMessage((IPacked)message);
                 }
                 else
@@ -120,11 +153,13 @@
                     Console.WriteLine(message.KindValue);
                 }
             }
+
+            _demo.PublishCurrentData();
         }
 
         private void ProcessPackedDemoMessage(IPacked message)
         {
-            message.Unpack(true);
+            message.Unpack();
             foreach (PacketMessageBase packedMessage in message.UnpackedMessageList)
             {
                 var analysableMessage = packedMessage as IAnalysable;
@@ -134,29 +169,16 @@
                 }
             }
         }
-
         #endregion
+    }
 
-        #region Methods
-
-        /// <summary>
-        /// The build foreplay.
-        /// </summary>
-        private void BuildForeplay()
+    public class NewDemoMessageEventArgs : EventArgs
+    {
+        public NewDemoMessageEventArgs(DemoMessageBase message)
         {
-            while (true)
-            {
-                var message = this._demoReader.ReadDemoMessage();
-                if (message.KindValue == (int)DemoCommandKind.DEM_SyncTick)
-                {
-                    break;
-                }
-
-                this._demo.DemoMessageList.Add(message);
-            }
-
-            this._demo.Initialize();
+            this.DemoMessage = message;
         }
-        #endregion
+
+        public DemoMessageBase DemoMessage { get; set; }
     }
 }

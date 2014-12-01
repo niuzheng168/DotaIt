@@ -37,8 +37,9 @@
             _tables = Helper.DeserilizedFromBytes<CDemoSendTables>(Message);
         }
 
-        public void Unpack(bool autoDeserilizedPackets)
+        public void Unpack()
         {
+            this.BuildMessageInstance();
             using (MemoryStream ms = new MemoryStream(this.MessageInstance.data))
             {
                 while (ms.Position < ms.Length)
@@ -50,10 +51,6 @@
                     PacketMessageBase m = PacketMessageFactory.CreatePacketMessage(kindValue, buffer, _tick);
                     if (m != null)
                     {
-                        if (autoDeserilizedPackets)
-                        {
-                            m.BuildMessageInstance();
-                        }
                         _unpackedMessageList.Add(m);
                     }
                 }
