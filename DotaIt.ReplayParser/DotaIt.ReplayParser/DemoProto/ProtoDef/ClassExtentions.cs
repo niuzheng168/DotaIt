@@ -1,6 +1,7 @@
 ﻿namespace DotaIt.ReplayParser.DemoProto.ProtoDef
 {
     using System;
+    using System.Collections.Generic;
 
     using DotaIt.ReplayParser.DemoProto.UserMessage;
 
@@ -31,11 +32,89 @@
         public CSVCMsg_SendTable Table { get; set; }
 
         public sendprop_t Template { get; set; }
+
+        public bool HasFlag(PropFlag flag)
+        {
+            if ((this.flags & (int)flag) != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public SendTableExclusion GetExcludeIdentifier()
+        {
+            return new SendTableExclusion(this.dt_name, this.var_name);
+        }
     }
 
     public partial class CSVCMsg_SendTable
     {
         public int ClassId { get; set; }
+
+        public List<ReceiveProp> ReceiveProps { get; set; }
+
+        public Dictionary<string, int> PropsByName { get; set; }
+
+        private CSVCMsg_SendTable SuperClass;
+
+        public HashSet<SendTableExclusion> GetAllExclusions()
+        {
+            HashSet<SendTableExclusion> result = new HashSet<SendTableExclusion>();
+            foreach (sendprop_t sp in props)
+            {
+                if(sp.HasFlag(PropFlag.Exclude))
+                {
+                    result.Add(sp.GetExcludeIdentifier());
+                }
+            }
+
+            return result;
+        }
+
+        public List<sendprop_t> GetAllRelations()
+        {
+            List<sendprop_t> result = new List<sendprop_t>(props);
+            for (int i = 0; i < result.Count; i++)
+            {
+                var sp = result[i];
+                if (sp.HasFlag(PropFlag.Exclude) || sp.type != (int)PropType.DataTable)
+                {
+                    result.Remove(sp);
+                }
+            }
+
+            return result;
+        }
+
+        public List<sendprop_t> GetAllNonExclusions()
+        {
+            List<sendprop_t> result = new List<sendprop_t>(props);
+            for (int i = 0; i < result.Count; i++)
+            {
+                var sp = result[i];
+                if (sp.HasFlag(PropFlag.Exclude))
+                {
+                    result.Remove(sp);
+                }
+            }
+
+            return result;
+        }
+
+        public void SetReceiveProps(List<ReceiveProp> receiveProps)
+        {
+            this.ReceiveProps = receiveProps;
+            this.PropsByName = new Dictionary<string, int>();
+            for (int i = 0; i < receiveProps.Count; i++)
+            {
+                var prop = receiveProps[i];
+                this.PropsByName.Add(prop.Name, i);
+            }
+        }
     }
 
     [Flags]

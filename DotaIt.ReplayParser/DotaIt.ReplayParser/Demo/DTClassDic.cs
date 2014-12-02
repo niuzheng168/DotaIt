@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
 
+    using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>

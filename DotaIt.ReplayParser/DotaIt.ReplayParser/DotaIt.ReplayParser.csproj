@@ -111,6 +111,7 @@
     <Compile Include="DemoProto\ProtoDef\DotaModifier.cs" />
     <Compile Include="DemoProto\ProtoDef\NetMessagesProtos.cs" />
     <Compile Include="DemoProto\ProtoDef\UserMessagesProtos.cs" />
+    <Compile Include="DemoProto\SendTableFlattener.cs" />
     <Compile Include="DemoProto\UserMessage\UserMessageBase.cs" />
     <Compile Include="DemoProto\UserMessage\UserMessageFactory.cs" />
     <Compile Include="Demo\CombatLog\DemoCombatLogBase.cs" />
