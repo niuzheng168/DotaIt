@@ -82,6 +82,7 @@
     <Compile Include="DemoProto\DemoMessages\DemoMessageSendTable.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageSignonPacket.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageStringTables.cs" />
+    <Compile Include="DemoProto\DemoMessages\DemoMessageSyncTick.cs" />
     <Compile Include="DemoProto\IAnalysable.cs" />
     <Compile Include="DemoProto\IPacked.cs" />
     <Compile Include="DemoProto\MessageBase.cs" />
@@ -110,9 +111,12 @@
     <Compile Include="DemoProto\ProtoDef\DotaModifier.cs" />
     <Compile Include="DemoProto\ProtoDef\NetMessagesProtos.cs" />
     <Compile Include="DemoProto\ProtoDef\UserMessagesProtos.cs" />
-    <Compile Include="DemoProto\UserMessage.cs" />
+    <Compile Include="DemoProto\UserMessage\UserMessageBase.cs" />
+    <Compile Include="DemoProto\UserMessage\UserMessageFactory.cs" />
     <Compile Include="Demo\CombatLog\DemoCombatLogBase.cs" />
     <Compile Include="Demo\CombatLog\DemoCombatLogHelper.cs" />
+    <Compile Include="Demo\DTClassDic.cs" />
+    <Compile Include="Demo\RuneLog\DemoRuneLog.cs" />
     <Compile Include="Utility\BitStream.cs" />
     <Compile Include="Utility\ByteString.cs" />
     <Compile Include="Demo\DemoHelper.cs" />

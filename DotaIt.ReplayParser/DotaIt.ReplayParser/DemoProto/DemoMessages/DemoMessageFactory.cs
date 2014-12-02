@@ -39,6 +39,9 @@
                 case DemoCommandKind.DEM_FullPacket:
                     message = new DemoMessageFullPacket(kindValue, tick, messageBody);
                     break;
+                case DemoCommandKind.DEM_SyncTick:
+                    message = new DemoMessageSyncTick(kindValue, tick, messageBody);
+                    break;
                 default:
                     message = new DemoMessageBase(kindValue, tick, messageBody);
                     break;

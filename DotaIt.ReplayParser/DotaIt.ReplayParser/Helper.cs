@@ -71,6 +71,11 @@
             return BitConverter.ToInt32(buffer, 0);
         }
 
+        public static T[] ConvertEnumToArray<T>() where T : struct
+        {
+            return (T[])Enum.GetValues(typeof(T));
+        }
+
         #endregion
     }
 }

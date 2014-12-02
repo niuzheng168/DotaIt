@@ -1,9 +1,5 @@
 ﻿namespace DotaIt.ReplayParser.DemoProto.PacketMessage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     /// <summary>
@@ -11,22 +7,6 @@
     /// </summary>
     public static class PacketMessageFactory
     {
-        //internal static Type CreateMessage(int kindValue, byte[] message, out MessageBase instance)
-        //{
-        //    if (MessageCreatorMap.ContainsKey(kindValue))
-        //    {
-        //        var creator = MessageCreatorMap[kindValue];
-        //        Type type = creator.Invoke(kindValue, message, out instance);
-        //        return type;
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("Invalid message kind in signon packets: {0}", kindValue);
-        //        instance = null;
-        //        return default(Type);
-        //    }
-        //}
-
         public static PacketMessageBase CreatePacketMessage(int kindValue, byte[] messageBody, int tick = -1)
         {
             PacketMessageBase message = null;

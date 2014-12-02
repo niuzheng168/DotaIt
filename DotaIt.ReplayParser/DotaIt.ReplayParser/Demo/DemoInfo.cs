@@ -4,12 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using DotaIt.ReplayParser.Advanced.CombatLog;
     using DotaIt.ReplayParser.Demo;
     using DotaIt.ReplayParser.Demo.CombatLog;
     using DotaIt.ReplayParser.DemoProto;
     using DotaIt.ReplayParser.DemoProto.PacketMessage;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
+    using DotaIt.ReplayParser.DemoProto.UserMessage;
 
     /// <summary>
     ///     The foreplay.
@@ -79,9 +79,29 @@
 
         private int _processedGameEventCount = 0;
 
+        private List<UserMessageBase> _userMessages = new List<UserMessageBase>();
+
+        private DTClassDic _dtClasses = new DTClassDic();
+
         #endregion
 
         #region Public Properties
+
+        public DTClassDic DtClasses
+        {
+            get
+            {
+                return this._dtClasses;
+            }
+        }
+
+        public List<UserMessageBase> UserMessages
+        {
+            get
+            {
+                return this._userMessages;
+            }
+        }
 
         /// <summary>
         /// Gets the class info.

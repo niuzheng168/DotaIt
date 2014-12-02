@@ -27,17 +27,6 @@
         {
             base.BuildMessageInstance();
             _stringTables = Helper.DeserilizedFromBytes<CDemoStringTables>(Message);
-
-            foreach (table_t table in _stringTables.tables)
-            {
-                int count = 0;
-                foreach (items_t item in table.items)
-                {
-                    table.ItemsByIndex.Add(count, item);
-                    table.ItemsByName.Add(item.str, item);
-                    count++;
-                }
-            }
         }
     }
 }

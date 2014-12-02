@@ -11,7 +11,11 @@ namespace DotaIt.ReplayParser
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Text;
+
+    using DotaIt.ReplayParser.DemoProto.ProtoDef;
+    using DotaIt.ReplayParser.DemoProto.UserMessage;
 
     using Newtonsoft.Json;
 
@@ -32,7 +36,6 @@ namespace DotaIt.ReplayParser
         {
             DateTime t1 = DateTime.Now;
             Parser parser = new Parser(@"D:\1016671075.dem");
-
             parser.Demo.OnCombatLog += Demo_OnCombatLog;
             parser.Parse();
             DateTime t2 = DateTime.Now;

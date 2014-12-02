@@ -1,40 +1,41 @@
 ﻿namespace DotaIt.ReplayParser.DemoProto.ProtoDef
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Text;
 
-    using DotaIt.ReplayParser.DemoProto.PacketMessage;
+    using DotaIt.ReplayParser.DemoProto.UserMessage;
 
-    using ProtoBuf;
-
-    public partial class CSVCMsg_SendTable
+    public partial class CUserMsg_SayText2 : UserMessageBase
     {
-        public static Expression<Func<CSVCMsg_SendTable, bool>> IsBaseClasee = p => p.net_table_name == "baseclass";
+        public static CUserMsg_SayText2 Create(int tick, byte[] data)
+        {
+            CUserMsg_SayText2 msg = Helper.DeserilizedFromBytes<CUserMsg_SayText2>(data);
+            msg.KindValue = (int)EBaseUserMessages.UM_SayText2;
+            msg.Tick = tick;
+            return msg;
+        }
     }
 
-    public partial class table_t
+    public partial class CDOTAUserMsg_ChatEvent : UserMessageBase
     {
-        public Dictionary<int, items_t> ItemsByIndex = new Dictionary<int, items_t>();
-        public Dictionary<string, items_t> ItemsByName = new Dictionary<string, items_t>();
+        public static CDOTAUserMsg_ChatEvent Create(int tick, byte[] data)
+        {
+            CDOTAUserMsg_ChatEvent msg = Helper.DeserilizedFromBytes<CDOTAUserMsg_ChatEvent>(data);
+            msg.KindValue = (int)EDotaUserMessages.DOTA_UM_ChatEvent;
+            msg.Tick = tick;
+            return msg;
+        }
     }
 
     public partial class sendprop_t
     {
-        public static Expression<Func<sendprop_t, bool>> IsCollasible = p => ((PropFlag)p.flags).HasFlag(PropFlag.Collapsible);
+        public CSVCMsg_SendTable Table { get; set; }
 
-        public static Expression<Func<sendprop_t, bool>> IsDataTable = p => p.type == (int)PropType.DataTable;
+        public sendprop_t Template { get; set; }
+    }
 
-        public static Expression<Func<sendprop_t, bool>> IsExclude = p => ((PropFlag)p.flags).HasFlag(PropFlag.Exclude);
-
-        public static Expression<Func<sendprop_t, bool>> IsInsideArray = p => ((PropFlag)p.flags).HasFlag(PropFlag.InsideArray);
-
-        public static Expression<Func<sendprop_t, bool>> IsNotExclude = p => p.flags == (int)PropFlag.Exclude;
-
-        public string OriginalSendTable { get; set; }
+    public partial class CSVCMsg_SendTable
+    {
+        public int ClassId { get; set; }
     }
 
     [Flags]

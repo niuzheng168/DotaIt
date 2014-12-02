@@ -1,8 +1,5 @@
-﻿namespace DotaIt.ReplayParser.Advanced.CombatLog
+﻿namespace DotaIt.ReplayParser.Demo.CombatLog
 {
-    using System.Text;
-
-    using DotaIt.ReplayParser.Demo.CombatLog;
     using DotaIt.ReplayParser.DemoProto.ProtoDef;
 
     using Newtonsoft.Json;
@@ -28,7 +25,7 @@
 
         public override string ToString()
         {
-            return string.Format("Time: {0}, Type: {1}", Time, this.Type);
+            return string.Format("Time: {0}, Type: {1}", this.Time, this.Type);
         }
     }
 

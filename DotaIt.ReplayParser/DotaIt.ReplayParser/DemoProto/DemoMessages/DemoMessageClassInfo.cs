@@ -10,7 +10,7 @@
     /// <summary>
     /// The demo message class info.
     /// </summary>
-    public class DemoMessageClassInfo : DemoMessageBase
+    public class DemoMessageClassInfo : DemoMessageBase, IAnalysable
     {
         public DemoMessageClassInfo(int kindValue, int tick, byte[] message)
             : base(kindValue, tick, message)
@@ -19,6 +19,7 @@
         }
 
         private CDemoClassInfo _classInfo;
+
         public new CDemoClassInfo MessageInstance
         {
             get
@@ -31,6 +32,15 @@
         {
             base.BuildMessageInstance();
             _classInfo = Helper.DeserilizedFromBytes<CDemoClassInfo>(Message);
+        }
+
+        public void AnalysisMessage(DemoInfo demo)
+        {
+            this.BuildMessageInstance();
+            foreach (CDemoClassInfo.class_t item in _classInfo.classes)
+            {
+                demo.DtClasses.SetClassIdForDtName(item.table_name, item.class_id);
+            }
         }
     }
 }

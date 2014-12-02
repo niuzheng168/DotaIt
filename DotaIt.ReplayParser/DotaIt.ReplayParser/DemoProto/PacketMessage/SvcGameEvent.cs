@@ -35,7 +35,7 @@
             this.BuildMessageInstance();
 
             int eventId = this._gameEvent.eventid;
-            var desc = demo.GameEventDescriptors[eventId];
+            CSVCMsg_GameEventList.descriptor_t desc = demo.GameEventDescriptors[eventId];
             GameEvent gameEvent = new GameEvent(eventId, desc, _tick);
 
             for (int i = 0; i < this.MessageInstance.keys.Count; i++)
