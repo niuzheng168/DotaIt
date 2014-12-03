@@ -151,7 +151,7 @@
         private object[] DecodeBaseProperities(CSVCMsg_SendTable cls)
         {
             ByteString s = _baseline.GetValueByName(cls.ClassId.ToString());
-            return new BaseInstanceDecoder(s.ToByteArray(), cls.ReceiveProps);
+            return BaseInstanceDecoder.Decode(s.ToByteArray(), cls.ReceiveProps);
         }
 
         private void DecodeProperties(object[] state, CSVCMsg_SendTable cls, List<int> propList)
@@ -159,7 +159,7 @@
             foreach (int i in propList)
             {
                 ReceiveProp r = cls.ReceiveProps[i];
-                object obj = PropDecoderDic.Decoders[r.type].DecodeToObj(stream, r);
+                object obj = PropDecoderDic.Decoders[(PropType)r.SendProp.type].DecodeToObj(_stream, r);
                 state[i] = obj;
             }
         }
@@ -177,32 +177,7 @@
             foreach (int i in propList)
             {
                 ReceiveProp r = receiveProps[i];
-                object obj = PropDecoderDic.Decoders[r.type].DecodeToObj(stream, r);
-                //switch (r.type)
-                //{
-                //    case PropType.Array:
-                //        obj = ArrayDecoder.Decode(stream, r);
-                //        break;
-                //    case PropType.Float:
-                //        obj = FloatDecoder.Decode(stream, r);
-                //        break;
-                //    case PropType.Int64:
-                //        obj = Int64Decoder.Decode(stream, r);
-                //        break;
-                //    case PropType.Int:
-                //        obj = IntDecoder.Decode(stream, r);
-                //        break;
-                //    case PropType.String:
-                //        obj = StringDecoder.Decode(stream, r);
-                //        break;
-                //    case PropType.Vector:
-                //        obj = VectorDecoder.Decode(stream, r);
-                //        break;
-                //    case PropType.VectorXY:
-                //        obj = VectorXYDecoder.Decode(stream, r);
-                //        break;
-                //}
-
+                object obj = PropDecoderDic.Decoders[(PropType)r.SendProp.type].DecodeToObj(stream, r);
                 state[i] = obj;
             }
 
