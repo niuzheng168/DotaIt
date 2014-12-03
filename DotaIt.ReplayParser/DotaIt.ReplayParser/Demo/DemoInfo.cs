@@ -61,31 +61,31 @@
         private List<PacketMessageBase> _packets = new List<PacketMessageBase>();
 
         /// <summary>
-        /// The _server info.
-        /// </summary>
-        private SvcServerInfo _serverInfo;
-
-        /// <summary>
         /// The _string tables.
         /// </summary>
         private StringTableDic _stringTables = new StringTableDic();
 
-        /// <summary>
-        /// The _voice init.
-        /// </summary>
-        private SvcVoiceInit _voiceInit;
+        private DemoCombatLogHelper _combatLogHelper;
 
-        private DemoCombatLogHelper _combatLogHelper = null;
-
-        private int _processedGameEventCount = 0;
+        private int _processedGameEventCount;
 
         private List<UserMessageBase> _userMessages = new List<UserMessageBase>();
 
         private DTClassDic _dtClasses = new DTClassDic();
 
+        private Entity[] _entities = new Entity[1 << Handle.INDEX_BITS];
+
         #endregion
 
         #region Public Properties
+
+        public Entity[] Entities
+        {
+            get
+            {
+                return this._entities;
+            }
+        }
 
         public DTClassDic DtClasses
         {
@@ -185,17 +185,6 @@
         }
 
         /// <summary>
-        /// Gets the server info.
-        /// </summary>
-        public SvcServerInfo ServerInfo
-        {
-            get
-            {
-                return this._serverInfo;
-            }
-        }
-
-        /// <summary>
         /// Gets the string tables.
         /// </summary>
         public StringTableDic StringTables
@@ -206,16 +195,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the voice init.
-        /// </summary>
-        public SvcVoiceInit VoiceInit
-        {
-            get
-            {
-                return this._voiceInit;
-            }
-        }
 
         #endregion
 

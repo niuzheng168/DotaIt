@@ -72,6 +72,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoProto\Decoders\ArrayDecoder.cs" />
+    <Compile Include="DemoProto\Decoders\FloatDecoder.cs" />
+    <Compile Include="DemoProto\Decoders\Int64Decoder.cs" />
+    <Compile Include="DemoProto\Decoders\IntDecoder.cs" />
+    <Compile Include="DemoProto\Decoders\PropDecoder.cs" />
+    <Compile Include="DemoProto\Decoders\StringDecoder.cs" />
+    <Compile Include="DemoProto\Decoders\VectorDecoder.cs" />
+    <Compile Include="DemoProto\Decoders\VectorXYDecoder.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageBase.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageClassInfo.cs" />
     <Compile Include="DemoProto\DemoMessages\DemoMessageFactory.cs" />
@@ -117,6 +125,7 @@
     <Compile Include="Demo\CombatLog\DemoCombatLogBase.cs" />
     <Compile Include="Demo\CombatLog\DemoCombatLogHelper.cs" />
     <Compile Include="Demo\DTClassDic.cs" />
+    <Compile Include="Demo\EntityCollection.cs" />
     <Compile Include="Demo\RuneLog\DemoRuneLog.cs" />
     <Compile Include="Utility\BitStream.cs" />
     <Compile Include="Utility\ByteString.cs" />
@@ -131,6 +140,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Demo\StringTableDic.cs" />
+    <Compile Include="Utility\EntityBitStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

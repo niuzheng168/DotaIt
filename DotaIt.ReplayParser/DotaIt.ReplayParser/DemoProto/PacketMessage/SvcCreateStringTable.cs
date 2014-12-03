@@ -128,6 +128,19 @@
             this._values[idx] = value;
         }
 
+        public ByteString GetValueByName(string key)
+        {
+            for (int i = 0; i < _names.Length; i++)
+            {
+                if (key.Equals(_names[i]))
+                {
+                    return _values[i];
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         ///     The _string table.
         /// </summary>

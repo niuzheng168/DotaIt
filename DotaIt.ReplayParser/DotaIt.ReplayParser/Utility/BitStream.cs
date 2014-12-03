@@ -9,7 +9,7 @@
     /// <summary>
     ///     The bit stream reader.
     /// </summary>
-    internal class BitStreamReader
+    public class BitStreamReader
     {
         #region Constants
 
@@ -296,6 +296,25 @@
             }
 
             return retVal;
+        }
+
+        internal int ReadVarInt()
+        {
+            int run = 0;
+            int value = 0;
+
+            while (true)
+            {
+                int bits = this.ReadInt32(8);
+                value = value | ((bits & 0x7f) << run);
+                run += 7;
+                if ((bits >> 7) == 0 || run == 35)
+                {
+                    break;
+                }
+            }
+
+            return value;
         }
 
         /// <summary>

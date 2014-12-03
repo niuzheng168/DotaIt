@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
 
     using DotaIt.ReplayParser.DemoProto.UserMessage;
 
@@ -27,7 +28,7 @@
         }
     }
 
-    public partial class sendprop_t
+    public partial class sendprop_t: IProp
     {
         public CSVCMsg_SendTable Table { get; set; }
 
@@ -45,10 +46,45 @@
             }
         }
 
+        public string src
+        {
+            get
+            {
+                return Table.net_table_name;
+            }
+        }
+
         public SendTableExclusion GetExcludeIdentifier()
         {
             return new SendTableExclusion(this.dt_name, this.var_name);
         }
+    }
+
+    public interface IProp
+    {
+        bool HasFlag(PropFlag flag);
+
+        int type { get; set; }
+
+        string src { get; }
+
+        string dt_name { get; set; }
+
+        string var_name { get; set; }
+
+        int priority { get; set; }
+
+        float low_value { get; set; }
+
+        float high_value { get; set; }
+
+        int num_bits { get; set; }
+
+        sendprop_t Template { get; set; }
+
+        int num_elements { get; set; }
+
+        int flags { get; set; }
     }
 
     public partial class CSVCMsg_SendTable
